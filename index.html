@@ -3,17 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <title>LIFF 測試</title>
-  <!-- 確保 SDK 正確載入 -->
   <script src="https://static.line-scdn.net/liff/edge/2.21/sdk.js" onload="initLIFF()"></script>
 </head>
 <body>
   <h2 id="status">請稍候，正在初始化 LIFF...</h2>
-  
+
   <script>
     async function initLIFF() {
       console.log("🚀 開始初始化 LIFF...");
 
-      // 1️⃣ 確保 LIFF SDK 正確載入
       if (typeof liff === "undefined") {
         console.error("❌ LIFF SDK 未正確載入！");
         document.getElementById("status").innerHTML = "❌ LIFF SDK 未載入，請重新整理";
@@ -21,37 +19,34 @@
       }
 
       try {
-        // 2️⃣ 替換成你的 LIFF ID
         await liff.init({ liffId: "2007045157-vQ7lX7j2" });
 
         console.log("✅ LIFF 初始化成功！");
         document.getElementById("status").innerHTML = "✅ LIFF 初始化成功！";
 
-        // 3️⃣ 如果未登入，先登入
         if (!liff.isLoggedIn()) {
           console.log("🔄 使用者未登入，執行登入...");
           liff.login();
           return;
         }
 
-        // 4️⃣ 取得 LINE 使用者資訊
         const profile = await liff.getProfile();
         const userId = profile.userId;
         const displayName = profile.displayName;
         console.log("🎯 LINE User ID:", userId);
         console.log("👤 使用者名稱:", displayName);
 
-        // 5️⃣ 在畫面上顯示 User ID
         document.getElementById("status").innerHTML = `<h2>LINE User ID：${userId}</h2>`;
 
-        // 6️⃣ 自動填寫 Google 表單
-        const googleFormURL = "https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/viewform?usp=pp_url"
-          + "&entry.248378342=" + encodeURIComponent(userId)  // 替換為你的 Google 表單欄位 ID
-          + "&entry.2126815580=" + encodeURIComponent(displayName); // 也可填入 LINE 名稱
+        // ✅ 自動填入 Google 表單
+        const googleFormURL = "https://docs.google.com/forms/d/e/1FAIpQLSeyaUKYnq8WsLBE9VOIlFVAF1j_Mos0lxzL-PP54gAQyVs2gg/viewform?usp=pp_url"
+          + "&entry.248378342=" + encodeURIComponent(userId)  // LINE User ID
+          + "&entry.2126815580=" + encodeURIComponent(displayName)  // 使用者名稱
+          + "&entry.102721434=" + encodeURIComponent("泰祥"); // 其他資訊
 
         console.log("🔗 跳轉 Google 表單：", googleFormURL);
 
-        // 7️⃣ 三秒後自動跳轉到 Google 表單
+        // 3 秒後跳轉
         setTimeout(() => {
           window.location.href = googleFormURL;
         }, 3000);
