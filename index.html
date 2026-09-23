@@ -1,47 +1,2140 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIFF 測試</title>
-    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>預約照拿藥</title>
+
+  <!-- LINE LIFF SDK -->
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #faf7f1;
+      --card: #ffffff;
+      --primary: #69401f;
+      --primary-light: #f5eadc;
+      --border: #e6ceb3;
+      --text: #3f2c20;
+      --muted: #8c7867;
+      --danger: #b94c42;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Noto Sans TC",
+        "Microsoft JhengHei",
+        sans-serif;
+    }
+
+    body {
+      padding: 28px 16px 60px;
+    }
+
+    .page {
+      width: min(100%, 1050px);
+      margin: 0 auto;
+    }
+
+    /* =========================
+       Header
+    ========================= */
+
+    .header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 36px;
+
+      margin-bottom: 30px;
+    }
+
+    .header-left {
+      padding: 18px 8px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      font-size: 24px;
+      font-weight: 700;
+
+      margin-bottom: 38px;
+    }
+
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      border-radius: 13px;
+
+      background: #f4e4cd;
+
+      font-size: 21px;
+    }
+
+    .hero-title {
+      margin: 0 0 20px;
+
+      font-size:
+        clamp(
+          34px,
+          6vw,
+          54px
+        );
+
+      letter-spacing: 2px;
+      line-height: 1.25;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* =========================
+       Hero Image
+    ========================= */
+
+    .hero-image-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      min-height: 420px;
+
+      animation:
+        heroFloat 3.2s
+        ease-in-out infinite;
+    }
+
+    .hero-image {
+      width: 100%;
+      max-width: 480px;
+      max-height: 430px;
+
+      object-fit: contain;
+
+      border-radius: 28px;
+
+      box-shadow:
+        0 22px 45px
+        rgba(76, 46, 20, 0.10);
+
+      animation:
+        heroBreathe 4.5s
+        ease-in-out infinite;
+
+      transform-origin:
+        center bottom;
+    }
+
+    @keyframes heroFloat {
+
+      0%,
+      100% {
+        transform:
+          translateY(0);
+      }
+
+      50% {
+        transform:
+          translateY(-12px);
+      }
+
+    }
+
+    @keyframes heroBreathe {
+
+      0%,
+      100% {
+        transform:
+          scale(1)
+          rotate(0deg);
+      }
+
+      50% {
+        transform:
+          scale(1.015)
+          rotate(0.4deg);
+      }
+
+    }
+
+    /* =========================
+       Notices
+    ========================= */
+
+    .notices {
+      margin-bottom: 30px;
+    }
+
+    .notice {
+      padding: 20px 24px;
+
+      border-radius: 18px;
+
+      margin-bottom: 16px;
+
+      line-height: 1.8;
+
+      white-space: pre-line;
+
+      border:
+        1px solid
+        var(--border);
+
+      opacity: 0;
+
+      transform:
+        translateY(12px);
+
+      animation:
+        noticeFadeIn
+        0.5s ease forwards;
+    }
+
+    .notice:nth-child(1) {
+      animation-delay: 0.05s;
+    }
+
+    .notice:nth-child(2) {
+      animation-delay: 0.12s;
+    }
+
+    .notice:nth-child(3) {
+      animation-delay: 0.19s;
+    }
+
+    .notice:nth-child(4) {
+      animation-delay: 0.26s;
+    }
+
+    .notice:nth-child(5) {
+      animation-delay: 0.33s;
+    }
+
+    @keyframes noticeFadeIn {
+
+      to {
+        opacity: 1;
+
+        transform:
+          translateY(0);
+      }
+
+    }
+
+    .notice-title {
+      font-size: 19px;
+      font-weight: 700;
+
+      margin-bottom: 8px;
+    }
+
+    .notice-main {
+      background: #fff;
+    }
+
+    .notice-info {
+      background: #f7f3ed;
+    }
+
+    .notice-warning {
+      background: #fff7e8;
+      border-color: #efd4a4;
+    }
+
+    .notice-danger {
+      background: #fff0ee;
+      border-color: #efb7b1;
+    }
+
+    .notice-card {
+      background: #fff;
+
+      box-shadow:
+        0 8px 28px
+        rgba(90, 58, 26, 0.06);
+    }
+
+    /* =========================
+       Form
+    ========================= */
+
+    .form-card {
+      background:
+        var(--card);
+
+      padding:
+        34px;
+
+      border-radius:
+        28px;
+
+      box-shadow:
+        0 18px 45px
+        rgba(72, 46, 22, 0.08);
+
+      animation:
+        formFadeIn
+        0.6s ease;
+    }
+
+    @keyframes formFadeIn {
+
+      from {
+        opacity: 0;
+
+        transform:
+          translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+
+        transform:
+          translateY(0);
+      }
+
+    }
+
+    .question {
+      margin-bottom: 28px;
+    }
+
+    .question-label {
+      display: block;
+
+      font-weight: 700;
+      font-size: 18px;
+
+      margin-bottom: 10px;
+    }
+
+    .required {
+      color: var(--danger);
+      margin-left: 4px;
+    }
+
+    .question-description {
+      margin-top: -3px;
+      margin-bottom: 10px;
+
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+
+      border:
+        1px solid
+        var(--border);
+
+      background:
+        #fff;
+
+      border-radius:
+        16px;
+
+      padding:
+        16px 18px;
+
+      font-size:
+        17px;
+
+      color:
+        var(--text);
+
+      outline:
+        none;
+
+      transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color:
+        #b98c60;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(185, 140, 96, 0.12);
+
+      transform:
+        translateY(-1px);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    /* =========================
+       Radio
+    ========================= */
+
+    .radio-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        14px;
+
+      padding:
+        14px 16px;
+
+      cursor:
+        pointer;
+
+      transition:
+        0.2s ease;
+    }
+
+    .radio-item:hover {
+      background:
+        #fcf7ef;
+
+      transform:
+        translateY(-1px);
+    }
+
+    .radio-item input {
+      transform:
+        scale(1.15);
+    }
+
+    /* =========================
+       Submit Button
+    ========================= */
+
+    .submit-button {
+      width: 100%;
+
+      border: 0;
+
+      border-radius:
+        16px;
+
+      padding:
+        17px 20px;
+
+      font-size:
+        18px;
+
+      font-weight:
+        700;
+
+      cursor:
+        pointer;
+
+      background:
+        var(--primary);
+
+      color:
+        #fff;
+
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+
+      box-shadow:
+        0 10px 22px
+        rgba(105, 64, 31, 0.18);
+    }
+
+    .submit-button:hover {
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 14px 28px
+        rgba(105, 64, 31, 0.24);
+    }
+
+    .submit-button:active {
+      transform:
+        translateY(0);
+    }
+
+    .submit-button:disabled {
+      opacity:
+        0.55;
+
+      cursor:
+        not-allowed;
+
+      transform:
+        none;
+    }
+
+    /* =========================
+       Loading
+    ========================= */
+
+    .loading {
+      min-height:
+        70vh;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      gap:
+        16px;
+
+      color:
+        var(--muted);
+    }
+
+    .loading-image-wrap {
+      animation:
+        heroFloat
+        3.2s
+        ease-in-out
+        infinite;
+    }
+
+    .loading-image {
+      width:
+        min(
+          76vw,
+          320px
+        );
+
+      border-radius:
+        24px;
+
+      box-shadow:
+        0 18px 30px
+        rgba(80, 50, 20, 0.08);
+
+      animation:
+        heroBreathe
+        4.5s
+        ease-in-out
+        infinite;
+    }
+
+    .wave-dots {
+      display: flex;
+      gap: 8px;
+
+      margin-top: 4px;
+    }
+
+    .wave-dots span {
+      width: 9px;
+      height: 9px;
+
+      border-radius:
+        50%;
+
+      background:
+        var(--primary);
+
+      animation:
+        dotWave
+        1.2s
+        ease-in-out
+        infinite;
+    }
+
+    .wave-dots span:nth-child(2) {
+      animation-delay:
+        0.15s;
+    }
+
+    .wave-dots span:nth-child(3) {
+      animation-delay:
+        0.3s;
+    }
+
+    @keyframes dotWave {
+
+      0%,
+      60%,
+      100% {
+        opacity:
+          0.35;
+
+        transform:
+          translateY(0);
+      }
+
+      30% {
+        opacity:
+          1;
+
+        transform:
+          translateY(-8px);
+      }
+
+    }
+
+    /* =========================
+       Message
+    ========================= */
+
+    .message-card {
+      background:
+        #fff;
+
+      text-align:
+        center;
+
+      padding:
+        50px 25px;
+
+      border-radius:
+        26px;
+
+      box-shadow:
+        0 18px 45px
+        rgba(72, 46, 22, 0.08);
+
+      animation:
+        formFadeIn
+        0.5s ease;
+    }
+
+    .message-card h2 {
+      font-size:
+        28px;
+
+      margin-top: 0;
+    }
+
+    .message-card p {
+      color:
+        var(--muted);
+
+      line-height:
+        1.8;
+    }
+
+    /* =========================
+       Mobile
+    ========================= */
+
+    @media (
+      max-width: 720px
+    ) {
+
+      body {
+        padding:
+          16px 12px 40px;
+      }
+
+      .header {
+        grid-template-columns:
+          1fr;
+
+        gap:
+          10px;
+      }
+
+      .header-left {
+        padding:
+          8px 2px;
+      }
+
+      .brand {
+        margin-bottom:
+          20px;
+      }
+
+      .hero-image-wrap {
+        min-height:
+          auto;
+      }
+
+      .hero-image {
+        max-width:
+          360px;
+
+        max-height:
+          340px;
+      }
+
+      .form-card {
+        padding:
+          22px 18px;
+
+        border-radius:
+          22px;
+      }
+
+      .notice {
+        padding:
+          17px 18px;
+      }
+
+    }
+
+    /* 減少動畫偏好 */
+    @media (
+      prefers-reduced-motion:
+      reduce
+    ) {
+
+      *,
+      *::before,
+      *::after {
+        animation:
+          none !important;
+
+        transition:
+          none !important;
+      }
+
+    }
+
+  </style>
 </head>
+
 <body>
-    <h1>LINE LIFF 測試頁面</h1>
-    <button onclick="login()">登入 LINE</button>
-    <button onclick="getUserProfile()">獲取用戶資訊</button>
 
-    <p id="userInfo"></p>
+  <!-- Loading -->
+  <div
+    id="loading"
+    class="loading"
+  >
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            liff.init({ liffId: "2007051903-2ajakdbl" })// 使用你的 LIFF ID
-                .then(() => {
-                    console.log("LIFF 初始化成功");
-                })
-                .catch(err => {
-                    console.error("LIFF 初始化失敗:", err);
-                });
+    <div
+      class="loading-image-wrap"
+    >
+
+      <img
+        src="https://i.ibb.co/Kj8Y7nZ3/image.jpg"
+        class="loading-image"
+        alt="照拿藥"
+      >
+
+    </div>
+
+    <div>
+      正在確認您的 LINE 身分並載入表單
+    </div>
+
+    <div
+      class="wave-dots"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+  </div>
+
+
+  <!-- Main App -->
+  <div
+    id="app"
+    class="page"
+    style="display:none;"
+  >
+
+    <!-- Header -->
+    <section
+      class="header"
+    >
+
+      <div
+        class="header-left"
+      >
+
+        <div
+          class="brand"
+        >
+
+          <div
+            class="brand-icon"
+          >
+            藥
+          </div>
+
+          <span
+            id="clinicName"
+          >
+            瑞恩中醫
+          </span>
+
+        </div>
+
+
+        <h1
+          class="hero-title"
+          id="pageTitle"
+        >
+          預約照拿藥
+        </h1>
+
+
+        <div
+          class="hero-subtitle"
+          id="pageSubtitle"
+        >
+        </div>
+
+      </div>
+
+
+      <div
+        class="hero-image-wrap"
+      >
+
+        <img
+          id="heroImage"
+          class="hero-image"
+          src="https://i.ibb.co/Kj8Y7nZ3/image.jpg"
+          alt="照拿藥同意書"
+        >
+
+      </div>
+
+    </section>
+
+
+    <!-- 公告 -->
+    <section
+      id="notices"
+      class="notices"
+    >
+    </section>
+
+
+    <!-- 表單 -->
+    <form
+      id="dynamicForm"
+      class="form-card"
+    >
+
+      <div
+        id="questions"
+      >
+      </div>
+
+
+      <button
+        id="submitButton"
+        type="submit"
+        class="submit-button"
+      >
+        送出照拿藥申請
+      </button>
+
+    </form>
+
+  </div>
+
+
+  <!-- Success / Error -->
+  <div
+    id="messageArea"
+    class="page"
+    style="display:none;"
+  >
+  </div>
+
+
+  <script>
+
+    /*************************************************
+     * 必填設定
+     *************************************************/
+
+    const GAS_URL =
+      'https://script.google.com/macros/s/AKfycbyJp3w3MNaJi1yNdWXHnegNqbkgxMmrGiMsx3KURcb4oZZr8YX461OXjk8zVnFMYVqh/exec';
+
+
+    const LIFF_ID =
+      '2007045157-vQ7lX7j2';
+
+
+    const DEFAULT_HERO_IMAGE =
+      'https://i.ibb.co/Kj8Y7nZ3/image.jpg';
+
+
+    /*************************************************
+     * 全域
+     *************************************************/
+
+    let formConfig =
+      null;
+
+
+    let lineProfile = {
+
+      displayName:
+        '',
+
+      userId:
+        ''
+
+    };
+
+
+    /*************************************************
+     * Start
+     *************************************************/
+
+    document.addEventListener(
+      'DOMContentLoaded',
+      async () => {
+
+        try {
+
+          await initLine();
+
+          await loadConfig();
+
+        }
+
+        catch (err) {
+
+          console.error(
+            err
+          );
+
+
+          showMessage(
+
+            '系統載入失敗',
+
+            '請稍後再試一次。'
+
+          );
+
+        }
+
+      }
+    );
+
+
+    /*************************************************
+     * LINE LIFF
+     *************************************************/
+
+    async function initLine() {
+
+      try {
+
+        await liff.init({
+
+          liffId:
+            LIFF_ID
+
         });
 
-        function login() {
-            if (!liff.isLoggedIn()) {
-                liff.login();
-            }
+
+        if (
+          !liff.isLoggedIn()
+        ) {
+
+          liff.login();
+
+          return;
+
         }
 
-        function getUserProfile() {
-            if (liff.isLoggedIn()) {
-                liff.getProfile()
-                    .then(profile => {
-                        document.getElementById("userInfo").innerText =
-                            `使用者名稱: ${profile.displayName}\n使用者 ID: ${profile.userId}`;
-                    })
-                    .catch(err => console.error("獲取用戶資訊失敗:", err));
-            } else {
-                alert("請先登入 LINE");
-            }
+
+        const profile =
+          await liff.getProfile();
+
+
+        lineProfile = {
+
+          displayName:
+            profile.displayName ||
+            '',
+
+          userId:
+            profile.userId ||
+            ''
+
+        };
+
+
+        console.log(
+
+          'LINE Profile:',
+
+          lineProfile
+
+        );
+
+      }
+
+      catch (err) {
+
+        console.warn(
+
+          'LINE Profile 無法取得',
+
+          err
+
+        );
+
+
+        lineProfile = {
+
+          displayName:
+            '',
+
+          userId:
+            ''
+
+        };
+
+      }
+
+    }
+
+
+    /*************************************************
+     * 讀取 Google Sheet
+     *************************************************/
+
+    async function loadConfig() {
+
+      const url =
+        `${GAS_URL}?action=config&_=${Date.now()}`;
+
+
+      const response =
+        await fetch(
+          url
+        );
+
+
+      if (
+        !response.ok
+      ) {
+
+        throw new Error(
+          '無法載入設定'
+        );
+
+      }
+
+
+      const result =
+        await response.json();
+
+
+      if (
+        !result.success
+      ) {
+
+        throw new Error(
+
+          result.message ||
+          '讀取設定失敗'
+
+        );
+
+      }
+
+
+      formConfig =
+        result.data;
+
+
+      renderForm();
+
+    }
+
+
+    /*************************************************
+     * Render
+     *************************************************/
+
+    function renderForm() {
+
+      const settings =
+        formConfig.settings ||
+        {};
+
+
+      const enabled =
+        (
+          settings.form_enabled ===
+          true
+        )
+        ||
+        (
+          String(
+            settings.form_enabled
+          )
+            .trim()
+            .toUpperCase()
+          ===
+          'TRUE'
+        );
+
+
+      if (
+        !enabled
+      ) {
+
+        showMessage(
+
+          '目前暫停接受申請',
+
+          settings.disabled_message ||
+          '目前暫停接受照拿藥申請。'
+
+        );
+
+        return;
+
+      }
+
+
+      document.title =
+        settings.page_title ||
+        '預約照拿藥';
+
+
+      document.getElementById(
+        'clinicName'
+      ).textContent =
+
+        settings.clinic_name ||
+        '瑞恩中醫';
+
+
+      document.getElementById(
+        'pageTitle'
+      ).textContent =
+
+        settings.page_title ||
+        '預約照拿藥';
+
+
+      document.getElementById(
+        'pageSubtitle'
+      ).textContent =
+
+        settings.page_subtitle ||
+        '請按問題依序填寫，送出後將盡快協助處理';
+
+
+      /***********************************************
+       * 圖片
+       *
+       * Sheet有 hero_image_url 就優先使用
+       * 沒有就使用固定卡通圖
+       ***********************************************/
+
+      const heroImage =
+        document.getElementById(
+          'heroImage'
+        );
+
+
+      heroImage.src =
+
+        settings.hero_image_url ||
+        DEFAULT_HERO_IMAGE;
+
+
+      heroImage.onerror =
+        () => {
+
+          heroImage.src =
+            DEFAULT_HERO_IMAGE;
+
+        };
+
+
+      renderNotices(
+
+        formConfig.notices ||
+        []
+
+      );
+
+
+      renderQuestions(
+
+        formConfig.questions ||
+        []
+
+      );
+
+
+      document.getElementById(
+        'submitButton'
+      ).textContent =
+
+        settings.submit_text ||
+        '送出照拿藥申請';
+
+
+      document.getElementById(
+        'loading'
+      ).style.display =
+        'none';
+
+
+      document.getElementById(
+        'app'
+      ).style.display =
+        'block';
+
+    }
+
+
+    /*************************************************
+     * 公告
+     *************************************************/
+
+    function renderNotices(
+      notices
+    ) {
+
+      const container =
+        document.getElementById(
+          'notices'
+        );
+
+
+      container.innerHTML =
+        '';
+
+
+      notices.forEach(
+        notice => {
+
+          const div =
+            document.createElement(
+              'div'
+            );
+
+
+          div.className =
+
+            `notice notice-${notice.type || 'info'}`;
+
+
+          if (
+            notice.title
+          ) {
+
+            const title =
+              document.createElement(
+                'div'
+              );
+
+
+            title.className =
+              'notice-title';
+
+
+            title.textContent =
+              notice.title;
+
+
+            div.appendChild(
+              title
+            );
+
+          }
+
+
+          const content =
+            document.createElement(
+              'div'
+            );
+
+
+          content.textContent =
+            notice.content ||
+            '';
+
+
+          if (
+            notice.bold
+          ) {
+
+            content.style.fontWeight =
+              '700';
+
+          }
+
+
+          div.appendChild(
+            content
+          );
+
+
+          container.appendChild(
+            div
+          );
+
         }
-    </script>
+      );
+
+    }
+
+
+    /*************************************************
+     * 題目
+     *************************************************/
+
+    function renderQuestions(
+      questions
+    ) {
+
+      const container =
+        document.getElementById(
+          'questions'
+        );
+
+
+      container.innerHTML =
+        '';
+
+
+      questions.forEach(
+        question => {
+
+          if (
+            question.type ===
+            'hidden'
+          ) {
+
+            return;
+
+          }
+
+
+          if (
+            question.visible ===
+            false
+          ) {
+
+            return;
+
+          }
+
+
+          const wrapper =
+            document.createElement(
+              'div'
+            );
+
+
+          wrapper.className =
+            'question';
+
+
+          const label =
+            document.createElement(
+              'label'
+            );
+
+
+          label.className =
+            'question-label';
+
+
+          label.textContent =
+            question.label ||
+            '';
+
+
+          if (
+            question.required
+          ) {
+
+            const star =
+              document.createElement(
+                'span'
+              );
+
+
+            star.className =
+              'required';
+
+
+            star.textContent =
+              '*';
+
+
+            label.appendChild(
+              star
+            );
+
+          }
+
+
+          wrapper.appendChild(
+            label
+          );
+
+
+          if (
+            question.description
+          ) {
+
+            const desc =
+              document.createElement(
+                'div'
+              );
+
+
+            desc.className =
+              'question-description';
+
+
+            desc.textContent =
+              question.description;
+
+
+            wrapper.appendChild(
+              desc
+            );
+
+          }
+
+
+          const input =
+            createInput(
+              question
+            );
+
+
+          wrapper.appendChild(
+            input
+          );
+
+
+          container.appendChild(
+            wrapper
+          );
+
+        }
+      );
+
+    }
+
+
+    /*************************************************
+     * Create Input
+     *************************************************/
+
+    function createInput(
+      question
+    ) {
+
+      /* textarea */
+
+      if (
+        question.type ===
+        'textarea'
+      ) {
+
+        const input =
+          document.createElement(
+            'textarea'
+          );
+
+
+        input.name =
+          question.id;
+
+
+        input.placeholder =
+          question.placeholder ||
+          '';
+
+
+        input.required =
+          !!question.required;
+
+
+        return input;
+
+      }
+
+
+      /* select */
+
+      if (
+        question.type ===
+        'select'
+      ) {
+
+        const select =
+          document.createElement(
+            'select'
+          );
+
+
+        select.name =
+          question.id;
+
+
+        select.required =
+          !!question.required;
+
+
+        const empty =
+          document.createElement(
+            'option'
+          );
+
+
+        empty.value =
+          '';
+
+
+        empty.textContent =
+          '請選擇';
+
+
+        select.appendChild(
+          empty
+        );
+
+
+        (
+          question.options ||
+          []
+        )
+          .forEach(
+            option => {
+
+              const item =
+                document.createElement(
+                  'option'
+                );
+
+
+              item.value =
+                option.value;
+
+
+              item.textContent =
+                option.label;
+
+
+              select.appendChild(
+                item
+              );
+
+            }
+          );
+
+
+        return select;
+
+      }
+
+
+      /* radio */
+
+      if (
+        question.type ===
+        'radio'
+      ) {
+
+        const container =
+          document.createElement(
+            'div'
+          );
+
+
+        container.className =
+          'radio-list';
+
+
+        (
+          question.options ||
+          []
+        )
+          .forEach(
+            option => {
+
+              const label =
+                document.createElement(
+                  'label'
+                );
+
+
+              label.className =
+                'radio-item';
+
+
+              const radio =
+                document.createElement(
+                  'input'
+                );
+
+
+              radio.type =
+                'radio';
+
+
+              radio.name =
+                question.id;
+
+
+              radio.value =
+                option.value;
+
+
+              radio.required =
+                !!question.required;
+
+
+              const span =
+                document.createElement(
+                  'span'
+                );
+
+
+              span.textContent =
+                option.label;
+
+
+              label.appendChild(
+                radio
+              );
+
+
+              label.appendChild(
+                span
+              );
+
+
+              container.appendChild(
+                label
+              );
+
+            }
+          );
+
+
+        return container;
+
+      }
+
+
+      /* checkbox */
+
+      if (
+        question.type ===
+        'checkbox'
+      ) {
+
+        const container =
+          document.createElement(
+            'div'
+          );
+
+
+        container.className =
+          'radio-list';
+
+
+        (
+          question.options ||
+          []
+        )
+          .forEach(
+            option => {
+
+              const label =
+                document.createElement(
+                  'label'
+                );
+
+
+              label.className =
+                'radio-item';
+
+
+              const checkbox =
+                document.createElement(
+                  'input'
+                );
+
+
+              checkbox.type =
+                'checkbox';
+
+
+              checkbox.name =
+                question.id;
+
+
+              checkbox.value =
+                option.value;
+
+
+              const span =
+                document.createElement(
+                  'span'
+                );
+
+
+              span.textContent =
+                option.label;
+
+
+              label.appendChild(
+                checkbox
+              );
+
+
+              label.appendChild(
+                span
+              );
+
+
+              container.appendChild(
+                label
+              );
+
+            }
+          );
+
+
+        return container;
+
+      }
+
+
+      /* text */
+
+      const input =
+        document.createElement(
+          'input'
+        );
+
+
+      input.type =
+        'text';
+
+
+      input.name =
+        question.id;
+
+
+      input.placeholder =
+        question.placeholder ||
+        '';
+
+
+      input.required =
+        !!question.required;
+
+
+      return input;
+
+    }
+
+
+    /*************************************************
+     * Submit
+     *************************************************/
+
+    document
+      .getElementById(
+        'dynamicForm'
+      )
+      .addEventListener(
+        'submit',
+        async event => {
+
+          event.preventDefault();
+
+
+          const button =
+            document.getElementById(
+              'submitButton'
+            );
+
+
+          try {
+
+            button.disabled =
+              true;
+
+
+            button.textContent =
+              '資料送出中...';
+
+
+            const answers =
+              {};
+
+
+            (
+              formConfig.questions ||
+              []
+            )
+              .forEach(
+                question => {
+
+                  if (
+                    question.type ===
+                    'hidden'
+                  ) {
+
+                    return;
+
+                  }
+
+
+                  if (
+                    question.type ===
+                    'radio'
+                  ) {
+
+                    const checked =
+                      document.querySelector(
+
+                        `input[name="${question.id}"]:checked`
+
+                      );
+
+
+                    answers[
+                      question.id
+                    ] =
+
+                      checked
+                        ? checked.value
+                        : '';
+
+                  }
+
+
+                  else if (
+                    question.type ===
+                    'checkbox'
+                  ) {
+
+                    const checked =
+                      Array.from(
+
+                        document.querySelectorAll(
+
+                          `input[name="${question.id}"]:checked`
+
+                        )
+
+                      );
+
+
+                    answers[
+                      question.id
+                    ] =
+
+                      checked
+                        .map(
+                          item =>
+                            item.value
+                        )
+                        .join(
+                          '、'
+                        );
+
+                  }
+
+
+                  else {
+
+                    const input =
+                      document.querySelector(
+
+                        `[name="${question.id}"]`
+
+                      );
+
+
+                    answers[
+                      question.id
+                    ] =
+
+                      input
+                        ? input.value.trim()
+                        : '';
+
+                  }
+
+                }
+              );
+
+
+            await submitData(
+              answers
+            );
+
+
+            showMessage(
+
+              formConfig.settings
+                .success_title
+              ||
+              '申請成功',
+
+              formConfig.settings
+                .success_message
+              ||
+              '已收到您的照拿藥申請。'
+
+            );
+
+          }
+
+          catch (err) {
+
+            console.error(
+              err
+            );
+
+
+            alert(
+
+              err.message
+              ||
+              '送出失敗，請稍後再試'
+
+            );
+
+
+            button.disabled =
+              false;
+
+
+            button.textContent =
+
+              formConfig.settings
+                .submit_text
+              ||
+              '送出照拿藥申請';
+
+          }
+
+        }
+      );
+
+
+    /*************************************************
+     * POST GAS
+     *************************************************/
+
+    async function submitData(
+      answers
+    ) {
+
+      const payload = {
+
+        action:
+          'submit',
+
+        answers:
+          answers,
+
+        lineName:
+          lineProfile.displayName,
+
+        userId:
+          lineProfile.userId
+
+      };
+
+
+      const response =
+        await fetch(
+          GAS_URL,
+          {
+
+            method:
+              'POST',
+
+            headers: {
+
+              'Content-Type':
+                'text/plain;charset=utf-8'
+
+            },
+
+            body:
+              JSON.stringify(
+                payload
+              )
+
+          }
+        );
+
+
+      const result =
+        await response.json();
+
+
+      if (
+        !result.success
+      ) {
+
+        throw new Error(
+
+          result.message
+          ||
+          '送出失敗'
+
+        );
+
+      }
+
+
+      return result;
+
+    }
+
+
+    /*************************************************
+     * Message
+     *************************************************/
+
+    function showMessage(
+      title,
+      message
+    ) {
+
+      document.getElementById(
+        'loading'
+      ).style.display =
+        'none';
+
+
+      document.getElementById(
+        'app'
+      ).style.display =
+        'none';
+
+
+      const area =
+        document.getElementById(
+          'messageArea'
+        );
+
+
+      area.style.display =
+        'block';
+
+
+      area.innerHTML =
+        '';
+
+
+      const card =
+        document.createElement(
+          'div'
+        );
+
+
+      card.className =
+        'message-card';
+
+
+      const h2 =
+        document.createElement(
+          'h2'
+        );
+
+
+      h2.textContent =
+        title;
+
+
+      const p =
+        document.createElement(
+          'p'
+        );
+
+
+      p.textContent =
+        message;
+
+
+      card.appendChild(
+        h2
+      );
+
+
+      card.appendChild(
+        p
+      );
+
+
+      area.appendChild(
+        card
+      );
+
+    }
+
+  </script>
+
 </body>
+
 </html>
