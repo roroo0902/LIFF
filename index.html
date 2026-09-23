@@ -1667,6 +1667,75 @@
 
 
     /* ==================================================
+       取藥日期 / 時段 滾輪
+    ================================================== */
+
+    .pickup-wheel-container {
+
+      position: relative;
+      display: grid;
+      grid-template-columns: 0.8fr 0.8fr 1.9fr;
+      gap: 4px;
+      height: 220px;
+      overflow: hidden;
+      border-radius: 18px;
+      background: #faf8f4;
+
+    }
+
+    .pickup-wheel-container .date-wheel-highlight {
+      top: 88px;
+    }
+
+    .pickup-wheel-container::before,
+    .pickup-wheel-container::after {
+
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 80px;
+      z-index: 3;
+      pointer-events: none;
+
+    }
+
+    .pickup-wheel-container::before {
+      top: 0;
+      background: linear-gradient(
+        to bottom,
+        #faf8f4 15%,
+        rgba(250, 248, 244, 0)
+      );
+    }
+
+    .pickup-wheel-container::after {
+      bottom: 0;
+      background: linear-gradient(
+        to top,
+        #faf8f4 15%,
+        rgba(250, 248, 244, 0)
+      );
+    }
+
+    .pickup-wheel-container .date-wheel-item {
+      font-size: 16px;
+    }
+
+    .pickup-wheel-container .date-wheel-item.selected {
+      font-size: 17px;
+    }
+
+    #pickupPeriodWheel .date-wheel-item {
+      font-size: 14px;
+      letter-spacing: -0.2px;
+    }
+
+    #pickupPeriodWheel .date-wheel-item.selected {
+      font-size: 15px;
+    }
+
+    /* ==================================================
        Mobile
     ================================================== */
 
@@ -1871,6 +1940,28 @@
         font-size:
           19px;
 
+      }
+
+      .pickup-wheel-container {
+        height: 210px;
+        grid-template-columns: 0.72fr 0.72fr 2fr;
+      }
+
+      .pickup-wheel-container .date-wheel {
+        height: 210px;
+        padding: 83px 0;
+      }
+
+      .pickup-wheel-container .date-wheel-highlight {
+        top: 83px;
+      }
+
+      #pickupPeriodWheel .date-wheel-item {
+        font-size: 12px;
+      }
+
+      #pickupPeriodWheel .date-wheel-item.selected {
+        font-size: 13px;
       }
 
     }
@@ -2164,6 +2255,94 @@
 
 
 
+
+
+  <!-- ==================================================
+       取藥日期 / 時段 Modal
+  ================================================== -->
+
+  <div
+    id="pickupModalOverlay"
+    class="date-modal-overlay"
+  >
+
+    <div
+      class="date-modal"
+    >
+
+      <div
+        class="date-modal-title"
+      >
+        請選擇取藥日期與時段
+      </div>
+
+
+      <div
+        class="date-modal-description"
+      >
+        請上下滑動選擇月份、日期與取藥時段
+      </div>
+
+
+      <div
+        class="pickup-wheel-container"
+      >
+
+        <div
+          class="date-wheel-highlight"
+        ></div>
+
+        <div
+          id="pickupMonthWheel"
+          class="date-wheel"
+        ></div>
+
+        <div
+          id="pickupDayWheel"
+          class="date-wheel"
+        ></div>
+
+        <div
+          id="pickupPeriodWheel"
+          class="date-wheel"
+        ></div>
+
+      </div>
+
+
+      <div
+        id="pickupSelectedPreview"
+        class="date-selected-preview"
+      ></div>
+
+
+      <div
+        class="date-modal-buttons"
+      >
+
+        <button
+          type="button"
+          class="date-button date-button-cancel"
+          id="pickupCancelButton"
+        >
+          取消
+        </button>
+
+        <button
+          type="button"
+          class="date-button date-button-confirm"
+          id="pickupConfirmButton"
+        >
+          確認取藥時間
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
   <script>
 
 
@@ -2228,6 +2407,49 @@
       1;
 
 
+    /*************************************************
+     * 取藥日期 / 時段 滾輪
+     *************************************************/
+
+    let activePickupInput =
+      null;
+
+
+    let selectedPickupMonth =
+      new Date().getMonth() + 1;
+
+
+    let selectedPickupDay =
+      new Date().getDate();
+
+
+    let selectedPickupPeriod =
+      'morning';
+
+
+    const PICKUP_PERIODS = [
+
+      {
+        value: 'morning',
+        label: '上午 08:00–12:00',
+        output: '上午（08:00–12:00）'
+      },
+
+      {
+        value: 'afternoon',
+        label: '下午 14:30–18:30',
+        output: '下午（14:30–18:30）'
+      },
+
+      {
+        value: 'evening',
+        label: '晚上 18:31–21:00',
+        output: '晚上（18:31–21:00）'
+      }
+
+    ];
+
+
 
     /*************************************************
      * Start
@@ -2238,6 +2460,7 @@
       async () => {
 
         setupDateModalEvents();
+        setupPickupModalEvents();
 
 
         try {
@@ -3285,11 +3508,31 @@
           ) {
 
             otherInput.placeholder =
-              '例如：9/25上午、9/26下午';
+              '請點選選擇取藥日期與時段';
+
+
+            otherInput.readOnly =
+              true;
+
+
+            otherInput.style.cursor =
+              'pointer';
 
 
             otherNotice.textContent =
-              '請填寫實際希望取藥的日期與時段。';
+              '請選擇月份、日期與上午／下午／晚上時段。';
+
+
+            otherInput.addEventListener(
+              'click',
+              () => {
+
+                openPickupPicker(
+                  otherInput
+                );
+
+              }
+            );
 
           }
 
@@ -3336,14 +3579,36 @@
                   !!question.required;
 
 
-                setTimeout(
-                  () => {
+                if (
+                  question.id ===
+                  'pickup'
+                ) {
 
-                    otherInput.focus();
+                  setTimeout(
+                    () => {
 
-                  },
-                  50
-                );
+                      openPickupPicker(
+                        otherInput
+                      );
+
+                    },
+                    80
+                  );
+
+                }
+
+                else {
+
+                  setTimeout(
+                    () => {
+
+                      otherInput.focus();
+
+                    },
+                    50
+                  );
+
+                }
 
               }
 
@@ -3787,6 +4052,648 @@
 
 
       return input;
+
+    }
+
+
+
+    /*************************************************
+     * 取藥日期 / 時段 Modal Event
+     *************************************************/
+
+    function setupPickupModalEvents() {
+
+      document
+        .getElementById(
+          'pickupCancelButton'
+        )
+        .addEventListener(
+          'click',
+          closePickupPicker
+        );
+
+
+      document
+        .getElementById(
+          'pickupConfirmButton'
+        )
+        .addEventListener(
+          'click',
+          confirmPickupPicker
+        );
+
+
+      document
+        .getElementById(
+          'pickupModalOverlay'
+        )
+        .addEventListener(
+          'click',
+          event => {
+
+            if (
+              event.target.id ===
+              'pickupModalOverlay'
+            ) {
+
+              closePickupPicker();
+
+            }
+
+          }
+        );
+
+    }
+
+
+
+    function openPickupPicker(
+      input
+    ) {
+
+      activePickupInput =
+        input;
+
+
+      const now =
+        new Date();
+
+
+      selectedPickupMonth =
+        now.getMonth() + 1;
+
+
+      selectedPickupDay =
+        now.getDate();
+
+
+      selectedPickupPeriod =
+        'morning';
+
+
+      /***********************************************
+       * 已有值時盡量還原上次選擇
+       ***********************************************/
+
+      if (
+        input.value
+      ) {
+
+        const match =
+          String(
+            input.value
+          ).match(
+            /^(\d{1,2})\/(\d{1,2})(上午|下午|晚上)/
+          );
+
+
+        if (
+          match
+        ) {
+
+          selectedPickupMonth =
+            Number(
+              match[1]
+            );
+
+
+          selectedPickupDay =
+            Number(
+              match[2]
+            );
+
+
+          selectedPickupPeriod =
+            match[3] === '下午'
+              ? 'afternoon'
+              : match[3] === '晚上'
+                ? 'evening'
+                : 'morning';
+
+        }
+
+      }
+
+
+      buildPickupWheels();
+
+
+      document
+        .getElementById(
+          'pickupModalOverlay'
+        )
+        .classList
+        .add(
+          'show'
+        );
+
+
+      document.body.style.overflow =
+        'hidden';
+
+
+      setTimeout(
+        () => {
+
+          scrollPickupWheels();
+          updatePickupSelection();
+
+        },
+        50
+      );
+
+    }
+
+
+
+    function buildPickupWheels() {
+
+      const months =
+        Array.from(
+          { length: 12 },
+          (_, index) =>
+            index + 1
+        );
+
+
+      buildPickupWheel(
+        'pickupMonthWheel',
+        months,
+        value =>
+          `${value}月`,
+        selectedPickupMonth,
+        value => {
+
+          selectedPickupMonth =
+            value;
+
+
+          rebuildPickupDayWheel();
+
+        }
+      );
+
+
+      buildPickupDayWheel();
+
+
+      buildPickupWheel(
+        'pickupPeriodWheel',
+        PICKUP_PERIODS.map(
+          item =>
+            item.value
+        ),
+        value =>
+          PICKUP_PERIODS.find(
+            item =>
+              item.value === value
+          )?.label || value,
+        selectedPickupPeriod,
+        value => {
+
+          selectedPickupPeriod =
+            value;
+
+        }
+      );
+
+    }
+
+
+
+    function buildPickupDayWheel() {
+
+      const year =
+        new Date().getFullYear();
+
+
+      const maxDay =
+        getDaysInMonth(
+          year,
+          selectedPickupMonth
+        );
+
+
+      selectedPickupDay =
+        Math.min(
+          selectedPickupDay,
+          maxDay
+        );
+
+
+      const days =
+        Array.from(
+          { length: maxDay },
+          (_, index) =>
+            index + 1
+        );
+
+
+      buildPickupWheel(
+        'pickupDayWheel',
+        days,
+        value =>
+          `${value}日`,
+        selectedPickupDay,
+        value => {
+
+          selectedPickupDay =
+            value;
+
+        }
+      );
+
+    }
+
+
+
+    function rebuildPickupDayWheel() {
+
+      buildPickupDayWheel();
+
+
+      setTimeout(
+        () => {
+
+          scrollPickupWheelToValue(
+            document.getElementById(
+              'pickupDayWheel'
+            ),
+            selectedPickupDay
+          );
+
+
+          updatePickupSelection();
+
+        },
+        0
+      );
+
+    }
+
+
+
+    function buildPickupWheel(
+      wheelId,
+      values,
+      formatter,
+      selectedValue,
+      onChange
+    ) {
+
+      const wheel =
+        document.getElementById(
+          wheelId
+        );
+
+
+      if (
+        wheel._pickupWheelHandler
+      ) {
+
+        wheel.removeEventListener(
+          'scroll',
+          wheel._pickupWheelHandler
+        );
+
+      }
+
+
+      wheel.innerHTML =
+        '';
+
+
+      values.forEach(
+        value => {
+
+          const item =
+            document.createElement(
+              'div'
+            );
+
+
+          item.className =
+            'date-wheel-item';
+
+
+          item.dataset.value =
+            value;
+
+
+          item.textContent =
+            formatter(
+              value
+            );
+
+
+          item.addEventListener(
+            'click',
+            () => {
+
+              onChange(
+                value
+              );
+
+
+              scrollPickupWheelToValue(
+                wheel,
+                value,
+                true
+              );
+
+
+              updatePickupSelection();
+
+            }
+          );
+
+
+          wheel.appendChild(
+            item
+          );
+
+        }
+      );
+
+
+      let timer =
+        null;
+
+
+      wheel._pickupWheelHandler =
+        () => {
+
+          clearTimeout(
+            timer
+          );
+
+
+          timer =
+            setTimeout(
+              () => {
+
+                const items =
+                  wheel.querySelectorAll(
+                    '.date-wheel-item'
+                  );
+
+
+                const index =
+                  Math.max(
+                    0,
+                    Math.min(
+                      items.length - 1,
+                      Math.round(
+                        wheel.scrollTop /
+                        WHEEL_ITEM_HEIGHT
+                      )
+                    )
+                  );
+
+
+                if (
+                  !items[index]
+                ) {
+                  return;
+                }
+
+
+                const rawValue =
+                  items[index].dataset.value;
+
+
+                const value =
+                  wheelId ===
+                    'pickupPeriodWheel'
+                    ? rawValue
+                    : Number(
+                        rawValue
+                      );
+
+
+                onChange(
+                  value
+                );
+
+
+                updatePickupSelection();
+
+              },
+              70
+            );
+
+        };
+
+
+      wheel.addEventListener(
+        'scroll',
+        wheel._pickupWheelHandler
+      );
+
+
+      highlightPickupWheelValue(
+        wheelId,
+        selectedValue
+      );
+
+    }
+
+
+
+    function scrollPickupWheelToValue(
+      wheel,
+      value,
+      smooth = false
+    ) {
+
+      const items =
+        Array.from(
+          wheel.querySelectorAll(
+            '.date-wheel-item'
+          )
+        );
+
+
+      const index =
+        items.findIndex(
+          item =>
+            String(
+              item.dataset.value
+            ) ===
+            String(
+              value
+            )
+        );
+
+
+      if (
+        index < 0
+      ) {
+        return;
+      }
+
+
+      wheel.scrollTo({
+
+        top:
+          index *
+          WHEEL_ITEM_HEIGHT,
+
+        behavior:
+          smooth
+            ? 'smooth'
+            : 'auto'
+
+      });
+
+    }
+
+
+
+    function scrollPickupWheels() {
+
+      scrollPickupWheelToValue(
+        document.getElementById(
+          'pickupMonthWheel'
+        ),
+        selectedPickupMonth
+      );
+
+
+      scrollPickupWheelToValue(
+        document.getElementById(
+          'pickupDayWheel'
+        ),
+        selectedPickupDay
+      );
+
+
+      scrollPickupWheelToValue(
+        document.getElementById(
+          'pickupPeriodWheel'
+        ),
+        selectedPickupPeriod
+      );
+
+    }
+
+
+
+    function highlightPickupWheelValue(
+      wheelId,
+      value
+    ) {
+
+      const wheel =
+        document.getElementById(
+          wheelId
+        );
+
+
+      wheel
+        .querySelectorAll(
+          '.date-wheel-item'
+        )
+        .forEach(
+          item => {
+
+            item.classList.toggle(
+              'selected',
+              String(
+                item.dataset.value
+              ) ===
+              String(
+                value
+              )
+            );
+
+          }
+        );
+
+    }
+
+
+
+    function updatePickupSelection() {
+
+      highlightPickupWheelValue(
+        'pickupMonthWheel',
+        selectedPickupMonth
+      );
+
+
+      highlightPickupWheelValue(
+        'pickupDayWheel',
+        selectedPickupDay
+      );
+
+
+      highlightPickupWheelValue(
+        'pickupPeriodWheel',
+        selectedPickupPeriod
+      );
+
+
+      const period =
+        PICKUP_PERIODS.find(
+          item =>
+            item.value ===
+            selectedPickupPeriod
+        );
+
+
+      document
+        .getElementById(
+          'pickupSelectedPreview'
+        )
+        .textContent =
+          `${selectedPickupMonth}/${selectedPickupDay} ｜ ${period?.output || ''}`;
+
+    }
+
+
+
+    function confirmPickupPicker() {
+
+      if (
+        !activePickupInput
+      ) {
+        return;
+      }
+
+
+      const period =
+        PICKUP_PERIODS.find(
+          item =>
+            item.value ===
+            selectedPickupPeriod
+        );
+
+
+      activePickupInput.value =
+        `${selectedPickupMonth}/${selectedPickupDay}${period?.output || ''}`;
+
+
+      closePickupPicker();
+
+    }
+
+
+
+    function closePickupPicker() {
+
+      document
+        .getElementById(
+          'pickupModalOverlay'
+        )
+        .classList
+        .remove(
+          'show'
+        );
+
+
+      document.body.style.overflow =
+        '';
 
     }
 
