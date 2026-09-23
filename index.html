@@ -3009,96 +3009,189 @@ select.addEventListener(
 
 
 
-      /* ===============================
-         checkbox
-      =============================== */
+/***********************************************
+ * checkbox
+ ***********************************************/
+
+if (
+  question.type ===
+  'checkbox'
+) {
+
+  const container =
+    document.createElement(
+      'div'
+    );
+
+
+  container.className =
+    'radio-list';
+
+
+  (
+    question.options ||
+    []
+  ).forEach(
+    option => {
+
+      const itemWrap =
+        document.createElement(
+          'div'
+        );
+
+
+      const label =
+        document.createElement(
+          'label'
+        );
+
+
+      label.className =
+        'radio-item';
+
+
+      const checkbox =
+        document.createElement(
+          'input'
+        );
+
+
+      checkbox.type =
+        'checkbox';
+
+
+      checkbox.name =
+        question.id;
+
+
+      checkbox.value =
+        option.value;
+
+
+      const span =
+        document.createElement(
+          'span'
+        );
+
+
+      span.textContent =
+        option.label;
+
+
+      label.appendChild(
+        checkbox
+      );
+
+
+      label.appendChild(
+        span
+      );
+
+
+      itemWrap.appendChild(
+        label
+      );
+
+
+      /***********************************************
+       * 「其他」輸入欄位
+       ***********************************************/
 
       if (
-        question.type ===
-        'checkbox'
+        option.value ===
+        '__OTHER__'
       ) {
 
-        const container =
+        const otherInput =
           document.createElement(
-            'div'
+            'input'
           );
 
 
-        container.className =
-          'radio-list';
+        otherInput.type =
+          'text';
 
 
-
-        (
-          question.options ||
-          []
-        )
-          .forEach(
-            option => {
-
-              const label =
-                document.createElement(
-                  'label'
-                );
+        otherInput.placeholder =
+          '請輸入其他服藥狀況';
 
 
-              label.className =
-                'radio-item';
+        otherInput.className =
+          'other-input';
 
 
-
-              const checkbox =
-                document.createElement(
-                  'input'
-                );
+        otherInput.dataset.forQuestion =
+          question.id;
 
 
-              checkbox.type =
-                'checkbox';
+        otherInput.dataset.optionType =
+          'checkbox';
 
 
-              checkbox.name =
-                question.id;
+        otherInput.style.display =
+          'none';
 
 
-              checkbox.value =
-                option.value;
+        otherInput.style.marginTop =
+          '10px';
 
 
-
-              const span =
-                document.createElement(
-                  'span'
-                );
+        itemWrap.appendChild(
+          otherInput
+        );
 
 
-              span.textContent =
-                option.label;
+        checkbox.addEventListener(
+          'change',
+          () => {
+
+            if (
+              checkbox.checked
+            ) {
+
+              otherInput.style.display =
+                'block';
 
 
+              setTimeout(
+                () => {
 
-              label.appendChild(
-                checkbox
-              );
+                  otherInput.focus();
 
-
-              label.appendChild(
-                span
-              );
-
-
-              container.appendChild(
-                label
+                },
+                50
               );
 
             }
-          );
+
+            else {
+
+              otherInput.style.display =
+                'none';
 
 
-        return container;
+              otherInput.value =
+                '';
+
+            }
+
+          }
+        );
 
       }
 
+
+      container.appendChild(
+        itemWrap
+      );
+
+    }
+  );
+
+
+  return container;
+
+}
 
 
       /* ===============================
@@ -4238,10 +4331,92 @@ select.addEventListener(
         }
 
 
-        else if (
-          question.type ===
-          'checkbox'
+else if (
+  question.type ===
+  'checkbox'
+) {
+
+  const checked =
+    Array.from(
+
+      document.querySelectorAll(
+
+        `input[name="${question.id}"]:checked`
+
+      )
+
+    );
+
+
+  const values =
+    [];
+
+
+  checked.forEach(
+    item => {
+
+      /*********************************************
+       * 「其他」
+       *********************************************/
+
+      if (
+        item.value ===
+        '__OTHER__'
+      ) {
+
+        const otherInput =
+          document.querySelector(
+
+            `.other-input[data-for-question="${question.id}"][data-option-type="checkbox"]`
+
+          );
+
+
+        const otherValue =
+          otherInput
+            ? String(
+                otherInput.value
+              ).trim()
+            : '';
+
+
+        if (
+          !otherValue
         ) {
+
+          throw new Error(
+            `請輸入「${question.label}」的其他內容`
+          );
+
+        }
+
+
+        values.push(
+          otherValue
+        );
+
+      }
+
+      else {
+
+        values.push(
+          item.value
+        );
+
+      }
+
+    }
+  );
+
+
+  answers[
+    question.id
+  ] =
+    values.join(
+      '、'
+    );
+
+} {
 
           const checked =
             document.querySelectorAll(
