@@ -420,181 +420,68 @@
    重要公告
 ================================================== */
 
+/* ==================================================
+   重要公告
+================================================== */
+
 .notice-important {
-  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  background: #fffaf7;
+  border: 2px solid #f08a72;
+  border-radius: 16px;
+
+  padding: 18px 22px;
+  margin-bottom: 18px;
+
+  box-shadow:
+    0 4px 12px rgba(235, 108, 79, 0.06);
+}
+
+.notice-important-icon {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
 
   background:
     linear-gradient(
       135deg,
-      #fff8f3 0%,
-      #fff3ea 100%
+      #f08a72 0%,
+      #e1634d 100%
     );
-
-  border:
-    3px solid #df654e;
-
-  border-radius:
-    22px;
-
-  padding:
-    24px 28px 24px 105px;
 
   box-shadow:
-    0 10px 28px
-    rgba(
-      190,
-      80,
-      55,
-      0.10
-    );
+    0 6px 14px rgba(225, 99, 77, 0.18);
 }
 
-
-/* 左側圓形公告圖示 */
-
-.notice-important::before {
-  content: "📢";
-
-  position: absolute;
-
-  left:
-    25px;
-
-  top:
-    50%;
-
-  transform:
-    translateY(-50%);
-
-  width:
-    58px;
-
-  height:
-    58px;
-
-  display:
-    flex;
-
-  align-items:
-    center;
-
-  justify-content:
-    center;
-
-  border-radius:
-    50%;
-
-  background:
-    #df654e;
-
-  color:
-    #fff;
-
-  font-size:
-    28px;
-
-  box-shadow:
-    0 6px 14px
-    rgba(
-      190,
-      80,
-      55,
-      0.20
-    );
+.notice-important-body {
+  flex: 1;
+  min-width: 0;
 }
 
-
-/* 重要公告標題 */
-
-.notice-important
-.notice-title {
-
-  margin-bottom:
-    8px;
-
-  color:
-    #d85942;
-
-  font-size:
-    26px;
-
-  font-weight:
-    800;
-
-  letter-spacing:
-    1px;
-
+.notice-important .notice-title {
+  margin: 0 0 6px;
+  color: #eb624a;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 1px;
 }
 
-
-/* 重要公告內容 */
-
-.notice-important
-.notice-title
-+ div {
-
-  color:
-    #3f2c20;
-
-  font-size:
-    19px;
-
-  font-weight:
-    700;
-
-  line-height:
-    1.7;
-
+.notice-important .notice-content {
+  color: #3f2c20;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.6;
 }
-
-    .notice-main {
-      background: #fff;
-    }
-
-
-    .notice-info {
-      background: #f7f3ed;
-    }
-
-
-    .notice-warning {
-
-      background:
-        #fff7e8;
-
-      border-color:
-        #efd4a4;
-
-    }
-
-
-    .notice-danger {
-
-      background:
-        #fff0ee;
-
-      border-color:
-        #efb7b1;
-
-    }
-
-
-    .notice-card {
-
-      background:
-        #fff;
-
-      box-shadow:
-        0 8px 28px
-        rgba(
-          90,
-          58,
-          26,
-          0.06
-        );
-
-    }
-
 
 
     /* ==================================================
@@ -1709,7 +1596,32 @@
     @media (
       max-width: 720px
     ) {
+.notice-important {
+  gap: 14px;
+  padding: 16px 16px;
+  border-radius: 14px;
+}
 
+.notice-important-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+}
+
+.notice-important-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.notice-important .notice-title {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.notice-important .notice-content {
+  font-size: 15px;
+  line-height: 1.55;
+}
       body {
 
         padding:
@@ -2535,94 +2447,170 @@
      * 公告
      *************************************************/
 
-    function renderNotices(
-      notices
-    ) {
+function renderNotices(notices) {
 
-      const container =
-        document.getElementById(
-          'notices'
-        );
+  const container =
+    document.getElementById('notices');
 
+  container.innerHTML = '';
 
-      container.innerHTML =
-        '';
+  notices.forEach(notice => {
 
+    const div =
+      document.createElement('div');
 
-      notices.forEach(
-        notice => {
+    div.className =
+      `notice notice-${notice.type || 'info'}`;
 
-          const div =
-            document.createElement(
-              'div'
-            );
+    /***********************************************
+     * 重要公告：使用固定圖示版型
+     ***********************************************/
+    if (notice.type === 'important') {
 
+      const iconWrap =
+        document.createElement('div');
 
-          div.className =
-
-            `notice notice-${notice.type || 'info'}`;
-
-
-          if (
-            notice.title
-          ) {
-
-            const title =
-              document.createElement(
-                'div'
-              );
+      iconWrap.className =
+        'notice-important-icon';
 
 
-            title.className =
-              'notice-title';
+      iconWrap.innerHTML = `
+        <svg
+          viewBox="0 0 64 64"
+          width="30"
+          height="30"
+          aria-hidden="true"
+        >
+          <!-- 擴音器本體 -->
+          <path
+            d="M28 26
+               L42 18
+               C44 17,46 18,46 20
+               L46 44
+               C46 46,44 47,42 46
+               L28 38
+               Z"
+            fill="#ffffff"
+          />
+          <rect
+            x="18"
+            y="24"
+            width="12"
+            height="16"
+            rx="3"
+            fill="#ffffff"
+          />
+          <rect
+            x="21"
+            y="40"
+            width="5"
+            height="8"
+            rx="2"
+            fill="#ffffff"
+          />
+          <path
+            d="M24 48
+               C24 52,28 55,32 55"
+            stroke="#ffffff"
+            stroke-width="4"
+            stroke-linecap="round"
+            fill="none"
+          />
+
+          <!-- 放射線 -->
+          <path
+            d="M50 18 L56 10"
+            stroke="#ffb39f"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+          <path
+            d="M55 28 L63 28"
+            stroke="#ffb39f"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+          <path
+            d="M50 38 L57 45"
+            stroke="#ffb39f"
+            stroke-width="4"
+            stroke-linecap="round"
+          />
+        </svg>
+      `;
 
 
-            title.textContent =
-              notice.title;
+      const body =
+        document.createElement('div');
+
+      body.className =
+        'notice-important-body';
 
 
-            div.appendChild(
-              title
-            );
+      const title =
+        document.createElement('div');
 
-          }
+      title.className =
+        'notice-title';
 
-
-          const content =
-            document.createElement(
-              'div'
-            );
+      title.textContent =
+        notice.title || '重要公告';
 
 
-          content.textContent =
-            notice.content ||
-            '';
+      const content =
+        document.createElement('div');
+
+      content.className =
+        'notice-content';
+
+      content.textContent =
+        notice.content || '';
 
 
-          if (
-            notice.bold
-          ) {
+      body.appendChild(title);
+      body.appendChild(content);
 
-            content.style.fontWeight =
-              '700';
+      div.appendChild(iconWrap);
+      div.appendChild(body);
 
-          }
+      container.appendChild(div);
 
-
-          div.appendChild(
-            content
-          );
-
-
-          container.appendChild(
-            div
-          );
-
-        }
-      );
-
+      return;
     }
 
+
+    /***********************************************
+     * 一般公告：沿用原本寫法
+     ***********************************************/
+    if (notice.title) {
+      const title =
+        document.createElement('div');
+
+      title.className =
+        'notice-title';
+
+      title.textContent =
+        notice.title;
+
+      div.appendChild(title);
+    }
+
+    const content =
+      document.createElement('div');
+
+    content.textContent =
+      notice.content || '';
+
+    if (notice.bold) {
+      content.style.fontWeight = '700';
+    }
+
+    div.appendChild(content);
+    container.appendChild(div);
+
+  });
+
+}
 
 
     /*************************************************
