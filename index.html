@@ -2813,7 +2813,7 @@ if (
 
 
   otherInput.placeholder =
-    '請自行輸入拿藥天數，例如：21';
+    '請自行輸入拿藥天數，例如：12';
 
 
   otherInput.className =
@@ -2835,51 +2835,78 @@ if (
   wrap.appendChild(
     otherInput
   );
+const otherNotice =
+  document.createElement(
+    'div'
+  );
 
+otherNotice.textContent =
+  '提醒：健保最多提供 14 天，超過 14 天的部分需自費開立。';
 
-  select.addEventListener(
-    'change',
-    () => {
+otherNotice.style.display =
+  'none';
 
-      if (
-        select.value ===
-        '__OTHER__'
-      ) {
+otherNotice.style.marginTop =
+  '8px';
 
-        otherInput.style.display =
-          'block';
+otherNotice.style.fontSize =
+  '14px';
 
+otherNotice.style.lineHeight =
+  '1.6';
 
-        otherInput.required =
-          !!question.required;
+otherNotice.style.color =
+  '#b06a3c';
 
+wrap.appendChild(
+  otherNotice
+);
 
-        setTimeout(
-          () => {
-            otherInput.focus();
-          },
-          50
-        );
+select.addEventListener(
+  'change',
+  () => {
 
-      }
+    if (
+      select.value ===
+      '__OTHER__'
+    ) {
 
-      else {
+      otherInput.style.display =
+        'block';
 
-        otherInput.style.display =
-          'none';
+      otherNotice.style.display =
+        'block';
 
+      otherInput.required =
+        !!question.required;
 
-        otherInput.required =
-          false;
-
-
-        otherInput.value =
-          '';
-
-      }
+      setTimeout(
+        () => {
+          otherInput.focus();
+        },
+        50
+      );
 
     }
-  );
+
+    else {
+
+      otherInput.style.display =
+        'none';
+
+      otherNotice.style.display =
+        'none';
+
+      otherInput.required =
+        false;
+
+      otherInput.value =
+        '';
+
+    }
+
+  }
+);
 
 
   return wrap;
@@ -4475,7 +4502,7 @@ if (
 
 
   value =
-    otherValue;
+    otherValue + '天';
 
 }
 
