@@ -2718,200 +2718,280 @@
 
 
       /***********************************************
- * select
- ***********************************************/
+       * select
+       ***********************************************/
 
-if (
-  question.type ===
-  'select'
-) {
+      if (
+        question.type ===
+        'select'
+      ) {
 
-  const wrap =
-    document.createElement(
-      'div'
-    );
-
-
-  const select =
-    document.createElement(
-      'select'
-    );
+        const wrap =
+          document.createElement(
+            'div'
+          );
 
 
-  select.name =
-    question.id;
+        const select =
+          document.createElement(
+            'select'
+          );
 
 
-  select.required =
-    !!question.required;
+        select.name =
+          question.id;
 
 
-  const empty =
-    document.createElement(
-      'option'
-    );
+        select.required =
+          !!question.required;
 
 
-  empty.value =
-    '';
+        const empty =
+          document.createElement(
+            'option'
+          );
 
 
-  empty.textContent =
-    '請選擇';
+        empty.value =
+          '';
 
 
-  select.appendChild(
-    empty
-  );
+        empty.textContent =
+          '請選擇';
 
 
-  (
-    question.options ||
-    []
-  ).forEach(
-    option => {
-
-      const item =
-        document.createElement(
-          'option'
+        select.appendChild(
+          empty
         );
 
 
-      item.value =
-        option.value;
+        const hasOther =
+          (
+            question.options ||
+            []
+          ).some(
+            option =>
+              option.value ===
+              '__OTHER__'
+          );
 
 
-      item.textContent =
-        option.label;
+        (
+          question.options ||
+          []
+        ).forEach(
+          option => {
+
+            const item =
+              document.createElement(
+                'option'
+              );
 
 
-      select.appendChild(
-        item
-      );
-
-    }
-  );
+            item.value =
+              option.value;
 
 
-  wrap.appendChild(
-    select
-  );
+            item.textContent =
+              option.label;
 
 
-  /***********************************************
-   * 其他：自行輸入
-   ***********************************************/
+            select.appendChild(
+              item
+            );
 
-  const otherInput =
-    document.createElement(
-      'input'
-    );
+          }
+        );
 
 
-  otherInput.type =
-    'text';
+        wrap.appendChild(
+          select
+        );
 
 
-  otherInput.placeholder =
-    '請自行輸入拿藥天數，例如：12';
+        /***********************************************
+         * 有「其他」選項時才建立自由輸入欄位
+         ***********************************************/
+
+        if (
+          hasOther
+        ) {
+
+          const otherInput =
+            document.createElement(
+              'input'
+            );
 
 
-  otherInput.className =
-    'other-input';
+          otherInput.type =
+            'text';
 
 
-  otherInput.dataset.forQuestion =
-    question.id;
+          otherInput.className =
+            'other-input';
 
 
-  otherInput.style.display =
-    'none';
+          otherInput.dataset.forQuestion =
+            question.id;
 
 
-  otherInput.style.marginTop =
-    '10px';
+          otherInput.dataset.optionType =
+            'select';
 
 
-  wrap.appendChild(
-    otherInput
-  );
-const otherNotice =
-  document.createElement(
-    'div'
-  );
-
-otherNotice.textContent =
-  '提醒：健保最多提供 14 天，超過 14 天的部分需自費開立。';
-
-otherNotice.style.display =
-  'none';
-
-otherNotice.style.marginTop =
-  '8px';
-
-otherNotice.style.fontSize =
-  '14px';
-
-otherNotice.style.lineHeight =
-  '1.6';
-
-otherNotice.style.color =
-  '#b06a3c';
-
-wrap.appendChild(
-  otherNotice
-);
-
-select.addEventListener(
-  'change',
-  () => {
-
-    if (
-      select.value ===
-      '__OTHER__'
-    ) {
-
-      otherInput.style.display =
-        'block';
-
-      otherNotice.style.display =
-        'block';
-
-      otherInput.required =
-        !!question.required;
-
-      setTimeout(
-        () => {
-          otherInput.focus();
-        },
-        50
-      );
-
-    }
-
-    else {
-
-      otherInput.style.display =
-        'none';
-
-      otherNotice.style.display =
-        'none';
-
-      otherInput.required =
-        false;
-
-      otherInput.value =
-        '';
-
-    }
-
-  }
-);
+          otherInput.style.display =
+            'none';
 
 
-  return wrap;
+          otherInput.style.marginTop =
+            '10px';
 
-}
+
+          const otherNotice =
+            document.createElement(
+              'div'
+            );
+
+
+          otherNotice.style.display =
+            'none';
+
+
+          otherNotice.style.marginTop =
+            '8px';
+
+
+          otherNotice.style.fontSize =
+            '14px';
+
+
+          otherNotice.style.lineHeight =
+            '1.6';
+
+
+          otherNotice.style.color =
+            '#b06a3c';
+
+
+          /*********************************************
+           * 不同題目顯示不同提示
+           *********************************************/
+
+          if (
+            question.id ===
+            'days'
+          ) {
+
+            otherInput.placeholder =
+              '請自行輸入拿藥天數，例如：12';
+
+
+            otherInput.inputMode =
+              'numeric';
+
+
+            otherNotice.textContent =
+              '⚠ 健保最多提供 14 天，超過 14 天的部分需自費開立。';
+
+          }
+
+          else if (
+            question.id ===
+            'pickup'
+          ) {
+
+            otherInput.placeholder =
+              '例如：9/25上午、9/26下午';
+
+
+            otherNotice.textContent =
+              '請填寫實際希望取藥的日期與時段。';
+
+          }
+
+          else {
+
+            otherInput.placeholder =
+              '請輸入其他內容';
+
+
+            otherNotice.textContent =
+              '請填寫其他內容。';
+
+          }
+
+
+          wrap.appendChild(
+            otherInput
+          );
+
+
+          wrap.appendChild(
+            otherNotice
+          );
+
+
+          select.addEventListener(
+            'change',
+            () => {
+
+              if (
+                select.value ===
+                '__OTHER__'
+              ) {
+
+                otherInput.style.display =
+                  'block';
+
+
+                otherNotice.style.display =
+                  'block';
+
+
+                otherInput.required =
+                  !!question.required;
+
+
+                setTimeout(
+                  () => {
+
+                    otherInput.focus();
+
+                  },
+                  50
+                );
+
+              }
+
+              else {
+
+                otherInput.style.display =
+                  'none';
+
+
+                otherNotice.style.display =
+                  'none';
+
+
+                otherInput.required =
+                  false;
+
+
+                otherInput.value =
+                  '';
+
+              }
+
+            }
+          );
+
+        }
+
+
+        return wrap;
+
+      }
+
 
       /* ===============================
          radio
@@ -3009,189 +3089,290 @@ select.addEventListener(
 
 
 
-/***********************************************
- * checkbox
- ***********************************************/
-
-if (
-  question.type ===
-  'checkbox'
-) {
-
-  const container =
-    document.createElement(
-      'div'
-    );
-
-
-  container.className =
-    'radio-list';
-
-
-  (
-    question.options ||
-    []
-  ).forEach(
-    option => {
-
-      const itemWrap =
-        document.createElement(
-          'div'
-        );
-
-
-      const label =
-        document.createElement(
-          'label'
-        );
-
-
-      label.className =
-        'radio-item';
-
-
-      const checkbox =
-        document.createElement(
-          'input'
-        );
-
-
-      checkbox.type =
-        'checkbox';
-
-
-      checkbox.name =
-        question.id;
-
-
-      checkbox.value =
-        option.value;
-
-
-      const span =
-        document.createElement(
-          'span'
-        );
-
-
-      span.textContent =
-        option.label;
-
-
-      label.appendChild(
-        checkbox
-      );
-
-
-      label.appendChild(
-        span
-      );
-
-
-      itemWrap.appendChild(
-        label
-      );
-
-
       /***********************************************
-       * 「其他」輸入欄位
+       * checkbox
        ***********************************************/
 
       if (
-        option.value ===
-        '__OTHER__'
+        question.type ===
+        'checkbox'
       ) {
 
-        const otherInput =
+        const container =
           document.createElement(
-            'input'
+            'div'
           );
 
 
-        otherInput.type =
-          'text';
+        container.className =
+          'radio-list';
 
 
-        otherInput.placeholder =
-          '請輸入其他服藥狀況';
+        const noAdjustValues =
+          [
+            '不需要，照上次即可。',
+            '不需要調整'
+          ];
 
 
-        otherInput.className =
-          'other-input';
+        (
+          question.options ||
+          []
+        ).forEach(
+          option => {
 
-
-        otherInput.dataset.forQuestion =
-          question.id;
-
-
-        otherInput.dataset.optionType =
-          'checkbox';
-
-
-        otherInput.style.display =
-          'none';
-
-
-        otherInput.style.marginTop =
-          '10px';
-
-
-        itemWrap.appendChild(
-          otherInput
-        );
-
-
-        checkbox.addEventListener(
-          'change',
-          () => {
-
-            if (
-              checkbox.checked
-            ) {
-
-              otherInput.style.display =
-                'block';
-
-
-              setTimeout(
-                () => {
-
-                  otherInput.focus();
-
-                },
-                50
+            const itemWrap =
+              document.createElement(
+                'div'
               );
 
-            }
 
-            else {
+            const label =
+              document.createElement(
+                'label'
+              );
+
+
+            label.className =
+              'radio-item';
+
+
+            const checkbox =
+              document.createElement(
+                'input'
+              );
+
+
+            checkbox.type =
+              'checkbox';
+
+
+            checkbox.name =
+              question.id;
+
+
+            checkbox.value =
+              option.value;
+
+
+            const span =
+              document.createElement(
+                'span'
+              );
+
+
+            span.textContent =
+              option.label;
+
+
+            label.appendChild(
+              checkbox
+            );
+
+
+            label.appendChild(
+              span
+            );
+
+
+            itemWrap.appendChild(
+              label
+            );
+
+
+            /***********************************************
+             * 「其他」輸入欄位
+             ***********************************************/
+
+            if (
+              option.value ===
+              '__OTHER__'
+            ) {
+
+              const otherInput =
+                document.createElement(
+                  'input'
+                );
+
+
+              otherInput.type =
+                'text';
+
+
+              otherInput.placeholder =
+                '請輸入其他服藥狀況';
+
+
+              otherInput.className =
+                'other-input';
+
+
+              otherInput.dataset.forQuestion =
+                question.id;
+
+
+              otherInput.dataset.optionType =
+                'checkbox';
+
 
               otherInput.style.display =
                 'none';
 
 
-              otherInput.value =
-                '';
+              otherInput.style.marginTop =
+                '10px';
+
+
+              itemWrap.appendChild(
+                otherInput
+              );
+
+
+              checkbox.addEventListener(
+                'change',
+                () => {
+
+                  if (
+                    checkbox.checked
+                  ) {
+
+                    otherInput.style.display =
+                      'block';
+
+
+                    setTimeout(
+                      () => {
+
+                        otherInput.focus();
+
+                      },
+                      50
+                    );
+
+                  }
+
+                  else {
+
+                    otherInput.style.display =
+                      'none';
+
+
+                    otherInput.value =
+                      '';
+
+                  }
+
+                }
+              );
 
             }
+
+
+            /***********************************************
+             * 「不需要，照上次即可」與其他症狀互斥
+             ***********************************************/
+
+            checkbox.addEventListener(
+              'change',
+              () => {
+
+                if (
+                  !checkbox.checked
+                ) {
+
+                  return;
+
+                }
+
+
+                const allCheckboxes =
+                  Array.from(
+                    container.querySelectorAll(
+                      `input[type="checkbox"][name="${question.id}"]`
+                    )
+                  );
+
+
+                if (
+                  noAdjustValues.includes(
+                    checkbox.value
+                  )
+                ) {
+
+                  allCheckboxes.forEach(
+                    otherCheckbox => {
+
+                      if (
+                        otherCheckbox !==
+                        checkbox
+                      ) {
+
+                        otherCheckbox.checked =
+                          false;
+
+                      }
+
+                    }
+                  );
+
+
+                  const otherInput =
+                    container.querySelector(
+                      `.other-input[data-for-question="${question.id}"][data-option-type="checkbox"]`
+                    );
+
+
+                  if (
+                    otherInput
+                  ) {
+
+                    otherInput.style.display =
+                      'none';
+
+
+                    otherInput.value =
+                      '';
+
+                  }
+
+                }
+
+                else {
+
+                  allCheckboxes.forEach(
+                    otherCheckbox => {
+
+                      if (
+                        noAdjustValues.includes(
+                          otherCheckbox.value
+                        )
+                      ) {
+
+                        otherCheckbox.checked =
+                          false;
+
+                      }
+
+                    }
+                  );
+
+                }
+
+              }
+            );
+
+
+            container.appendChild(
+              itemWrap
+            );
 
           }
         );
 
+
+        return container;
+
       }
-
-
-      container.appendChild(
-        itemWrap
-      );
-
-    }
-  );
-
-
-  return container;
-
-}
 
 
       /* ===============================
@@ -4302,6 +4483,10 @@ if (
         }
 
 
+        /***********************************************
+         * radio
+         ***********************************************/
+
         if (
           question.type ===
           'radio'
@@ -4309,9 +4494,7 @@ if (
 
           const checked =
             document.querySelector(
-
               `input[name="${question.id}"]:checked`
-
             );
 
 
@@ -4331,98 +4514,20 @@ if (
         }
 
 
-else if (
-  question.type ===
-  'checkbox'
-) {
+        /***********************************************
+         * checkbox
+         ***********************************************/
 
-  const checked =
-    Array.from(
-
-      document.querySelectorAll(
-
-        `input[name="${question.id}"]:checked`
-
-      )
-
-    );
-
-
-  const values =
-    [];
-
-
-  checked.forEach(
-    item => {
-
-      /*********************************************
-       * 「其他」
-       *********************************************/
-
-      if (
-        item.value ===
-        '__OTHER__'
-      ) {
-
-        const otherInput =
-          document.querySelector(
-
-            `.other-input[data-for-question="${question.id}"][data-option-type="checkbox"]`
-
-          );
-
-
-        const otherValue =
-          otherInput
-            ? String(
-                otherInput.value
-              ).trim()
-            : '';
-
-
-        if (
-          !otherValue
+        else if (
+          question.type ===
+          'checkbox'
         ) {
 
-          throw new Error(
-            `請輸入「${question.label}」的其他內容`
-          );
-
-        }
-
-
-        values.push(
-          otherValue
-        );
-
-      }
-
-      else {
-
-        values.push(
-          item.value
-        );
-
-      }
-
-    }
-  );
-
-
-  answers[
-    question.id
-  ] =
-    values.join(
-      '、'
-    );
-
-} {
-
           const checked =
-            document.querySelectorAll(
-
-              `input[name="${question.id}"]:checked`
-
+            Array.from(
+              document.querySelectorAll(
+                `input[name="${question.id}"]:checked`
+              )
             );
 
 
@@ -4439,25 +4544,84 @@ else if (
 
           }
 
+
+          const otherChecked =
+            checked.find(
+              item =>
+                item.value ===
+                '__OTHER__'
+            );
+
+
+          if (
+            otherChecked
+          ) {
+
+            const otherInput =
+              document.querySelector(
+                `.other-input[data-for-question="${question.id}"][data-option-type="checkbox"]`
+              );
+
+
+            const otherValue =
+              otherInput
+                ? String(
+                    otherInput.value ||
+                    ''
+                  ).trim()
+                : '';
+
+
+            if (
+              !otherValue
+            ) {
+
+              alert(
+                `請輸入「${question.label}」的其他內容`
+              );
+
+
+              if (
+                otherInput
+              ) {
+
+                otherInput.focus();
+
+              }
+
+
+              return false;
+
+            }
+
+          }
+
         }
 
+
+        /***********************************************
+         * text / textarea / select / date
+         ***********************************************/
 
         else {
 
           const input =
             document.querySelector(
-
               `[name="${question.id}"]`
-
             );
 
 
+          const value =
+            input
+              ? String(
+                  input.value ||
+                  ''
+                ).trim()
+              : '';
+
+
           if (
-            !input
-            ||
-            !String(
-              input.value || ''
-            ).trim()
+            !value
           ) {
 
             alert(
@@ -4488,6 +4652,58 @@ else if (
 
 
             return false;
+
+          }
+
+
+          /*********************************************
+           * select 選「其他」時，必須填自由輸入欄位
+           *********************************************/
+
+          if (
+            question.type ===
+            'select'
+            &&
+            value ===
+            '__OTHER__'
+          ) {
+
+            const otherInput =
+              document.querySelector(
+                `.other-input[data-for-question="${question.id}"][data-option-type="select"]`
+              );
+
+
+            const otherValue =
+              otherInput
+                ? String(
+                    otherInput.value ||
+                    ''
+                  ).trim()
+                : '';
+
+
+            if (
+              !otherValue
+            ) {
+
+              alert(
+                `請輸入「${question.label}」的其他內容`
+              );
+
+
+              if (
+                otherInput
+              ) {
+
+                otherInput.focus();
+
+              }
+
+
+              return false;
+
+            }
 
           }
 
@@ -4597,28 +4813,74 @@ else if (
 
                     const checked =
                       Array.from(
-
                         document.querySelectorAll(
-
                           `input[name="${question.id}"]:checked`
-
                         )
-
                       );
+
+
+                    const values =
+                      [];
+
+
+                    checked.forEach(
+                      item => {
+
+                        if (
+                          item.value ===
+                          '__OTHER__'
+                        ) {
+
+                          const otherInput =
+                            document.querySelector(
+                              `.other-input[data-for-question="${question.id}"][data-option-type="checkbox"]`
+                            );
+
+
+                          const otherValue =
+                            otherInput
+                              ? String(
+                                  otherInput.value ||
+                                  ''
+                                ).trim()
+                              : '';
+
+
+                          if (
+                            !otherValue
+                          ) {
+
+                            throw new Error(
+                              `請輸入「${question.label}」的其他內容`
+                            );
+
+                          }
+
+
+                          values.push(
+                            otherValue
+                          );
+
+                        }
+
+                        else {
+
+                          values.push(
+                            item.value
+                          );
+
+                        }
+
+                      }
+                    );
 
 
                     answers[
                       question.id
                     ] =
-
-                      checked
-                        .map(
-                          item =>
-                            item.value
-                        )
-                        .join(
-                          '、'
-                        );
+                      values.join(
+                        '、'
+                      );
 
                   }
 
@@ -4639,47 +4901,70 @@ let value =
     : '';
 
 
-/***********************************************
- * 下拉選單選「其他」
- ***********************************************/
+                    /***********************************************
+                     * 下拉選單選「其他」
+                     ***********************************************/
 
-if (
-  question.type ===
-  'select'
-  &&
-  value ===
-  '__OTHER__'
-) {
+                    if (
+                      question.type ===
+                      'select'
+                      &&
+                      value ===
+                      '__OTHER__'
+                    ) {
 
-  const otherInput =
-    document.querySelector(
-      `.other-input[data-for-question="${question.id}"]`
-    );
-
-
-  const otherValue =
-    otherInput
-      ? String(
-          otherInput.value
-        ).trim()
-      : '';
+                      const otherInput =
+                        document.querySelector(
+                          `.other-input[data-for-question="${question.id}"][data-option-type="select"]`
+                        );
 
 
-  if (
-    !otherValue
-  ) {
-
-    throw new Error(
-      `請輸入「${question.label}」的其他內容`
-    );
-
-  }
+                      const otherValue =
+                        otherInput
+                          ? String(
+                              otherInput.value ||
+                              ''
+                            ).trim()
+                          : '';
 
 
-  value =
-    otherValue + '天';
+                      if (
+                        !otherValue
+                      ) {
 
-}
+                        throw new Error(
+                          `請輸入「${question.label}」的其他內容`
+                        );
+
+                      }
+
+
+                      if (
+                        question.id ===
+                        'days'
+                      ) {
+
+                        const normalizedDays =
+                          otherValue.replace(
+                            /天\s*$/,
+                            ''
+                          );
+
+
+                        value =
+                          normalizedDays +
+                          '天';
+
+                      }
+
+                      else {
+
+                        value =
+                          otherValue;
+
+                      }
+
+                    }
 
 
                     /* birthday 才轉民國7碼 */
