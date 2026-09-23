@@ -2,27 +2,18 @@
 <html lang="zh-Hant">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
   >
 
   <title>預約照拿藥</title>
 
   <!-- LINE LIFF -->
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-
-  <!-- Flatpickr 日期選擇器 -->
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-  >
-
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh-tw.js"></script>
 
 
   <style>
@@ -31,23 +22,40 @@
       box-sizing: border-box;
     }
 
+
     :root {
+
       --bg: #faf7f1;
+
       --card: #ffffff;
+
       --primary: #69401f;
+
       --primary-light: #f5eadc;
+
       --border: #e6ceb3;
+
       --text: #3f2c20;
+
       --muted: #8c7867;
+
       --danger: #b94c42;
+
     }
+
 
     html,
     body {
+
       margin: 0;
+
       min-height: 100%;
-      background: var(--bg);
-      color: var(--text);
+
+      background:
+        var(--bg);
+
+      color:
+        var(--text);
 
       font-family:
         -apple-system,
@@ -55,56 +63,121 @@
         "Noto Sans TC",
         "Microsoft JhengHei",
         sans-serif;
+
     }
+
 
     body {
-      padding: 28px 16px 60px;
+
+      padding:
+        28px 16px 60px;
+
     }
+
 
     .page {
-      width: min(100%, 1050px);
-      margin: 0 auto;
+
+      width:
+        min(
+          100%,
+          1050px
+        );
+
+      margin:
+        0 auto;
+
     }
 
 
-    /* =========================
+
+    /* ==================================================
        Header
-    ========================= */
+    ================================================== */
 
     .header {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      align-items: center;
-      gap: 36px;
-      margin-bottom: 30px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      align-items:
+        center;
+
+      gap:
+        36px;
+
+      margin-bottom:
+        30px;
+
     }
+
 
     .header-left {
-      padding: 18px 8px;
+
+      padding:
+        18px 8px;
+
     }
+
 
     .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 38px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        12px;
+
+      font-size:
+        24px;
+
+      font-weight:
+        700;
+
+      margin-bottom:
+        38px;
+
     }
+
 
     .brand-icon {
-      width: 42px;
-      height: 42px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 13px;
-      background: #f4e4cd;
-      font-size: 21px;
+
+      width:
+        42px;
+
+      height:
+        42px;
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      align-items:
+        center;
+
+      border-radius:
+        13px;
+
+      background:
+        #f4e4cd;
+
+      font-size:
+        21px;
+
     }
 
+
     .hero-title {
-      margin: 0 0 20px;
+
+      margin:
+        0 0 20px;
 
       font-size:
         clamp(
@@ -113,112 +186,187 @@
           54px
         );
 
-      letter-spacing: 2px;
-      line-height: 1.25;
+      letter-spacing:
+        2px;
+
+      line-height:
+        1.25;
+
     }
+
 
     .hero-subtitle {
-      font-size: 18px;
-      color: var(--muted);
-      line-height: 1.8;
+
+      font-size:
+        18px;
+
+      color:
+        var(--muted);
+
+      line-height:
+        1.8;
+
     }
 
 
-    /* =========================
-       Hero Image
-    ========================= */
+
+    /* ==================================================
+       卡通人物
+    ================================================== */
 
     .hero-image-wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 420px;
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      align-items:
+        center;
+
+      min-height:
+        420px;
 
       animation:
-        heroFloat 3.2s
-        ease-in-out infinite;
+        heroFloat
+        3.2s
+        ease-in-out
+        infinite;
+
     }
 
+
     .hero-image {
-      width: 100%;
-      max-width: 480px;
-      max-height: 430px;
-      object-fit: contain;
-      border-radius: 28px;
+
+      width:
+        100%;
+
+      max-width:
+        480px;
+
+      max-height:
+        430px;
+
+      object-fit:
+        contain;
+
+      border-radius:
+        28px;
 
       box-shadow:
         0 22px 45px
-        rgba(76, 46, 20, 0.10);
+        rgba(
+          76,
+          46,
+          20,
+          0.10
+        );
 
       animation:
-        heroBreathe 4.5s
-        ease-in-out infinite;
+        heroBreathe
+        4.5s
+        ease-in-out
+        infinite;
 
       transform-origin:
         center bottom;
+
     }
+
 
     @keyframes heroFloat {
 
       0%,
       100% {
+
         transform:
           translateY(0);
+
       }
 
+
       50% {
+
         transform:
           translateY(-12px);
+
       }
 
     }
+
 
     @keyframes heroBreathe {
 
       0%,
       100% {
+
         transform:
           scale(1)
           rotate(0deg);
+
       }
 
+
       50% {
+
         transform:
           scale(1.015)
           rotate(0.4deg);
+
       }
 
     }
 
 
-    /* =========================
-       Notices
-    ========================= */
+
+    /* ==================================================
+       公告
+    ================================================== */
 
     .notices {
-      margin-bottom: 30px;
+
+      margin-bottom:
+        30px;
+
     }
 
+
     .notice {
-      padding: 20px 24px;
-      border-radius: 18px;
-      margin-bottom: 16px;
-      line-height: 1.8;
-      white-space: pre-line;
+
+      padding:
+        20px 24px;
+
+      border-radius:
+        18px;
+
+      margin-bottom:
+        16px;
+
+      line-height:
+        1.8;
+
+      white-space:
+        pre-line;
 
       border:
         1px solid
         var(--border);
 
-      opacity: 0;
+      opacity:
+        0;
 
       transform:
         translateY(12px);
 
       animation:
         noticeFadeIn
-        0.5s ease forwards;
+        0.5s
+        ease
+        forwards;
+
     }
+
 
     .notice:nth-child(1) {
       animation-delay: 0.05s;
@@ -240,278 +388,412 @@
       animation-delay: 0.33s;
     }
 
+
     @keyframes noticeFadeIn {
 
       to {
-        opacity: 1;
-        transform: translateY(0);
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0);
+
       }
 
     }
 
+
     .notice-title {
-      font-size: 19px;
-      font-weight: 700;
-      margin-bottom: 8px;
+
+      font-size:
+        19px;
+
+      font-weight:
+        700;
+
+      margin-bottom:
+        8px;
+
     }
+
 
     .notice-main {
       background: #fff;
     }
 
+
     .notice-info {
       background: #f7f3ed;
     }
 
+
     .notice-warning {
-      background: #fff7e8;
-      border-color: #efd4a4;
+
+      background:
+        #fff7e8;
+
+      border-color:
+        #efd4a4;
+
     }
+
 
     .notice-danger {
-      background: #fff0ee;
-      border-color: #efb7b1;
+
+      background:
+        #fff0ee;
+
+      border-color:
+        #efb7b1;
+
     }
 
+
     .notice-card {
-      background: #fff;
+
+      background:
+        #fff;
 
       box-shadow:
         0 8px 28px
-        rgba(90, 58, 26, 0.06);
+        rgba(
+          90,
+          58,
+          26,
+          0.06
+        );
+
     }
 
 
-    /* =========================
+
+    /* ==================================================
        Form
-    ========================= */
+    ================================================== */
 
     .form-card {
-      background: var(--card);
-      padding: 34px;
-      border-radius: 28px;
+
+      background:
+        var(--card);
+
+      padding:
+        34px;
+
+      border-radius:
+        28px;
 
       box-shadow:
         0 18px 45px
-        rgba(72, 46, 22, 0.08);
+        rgba(
+          72,
+          46,
+          22,
+          0.08
+        );
 
       animation:
         formFadeIn
-        0.6s ease;
+        0.6s
+        ease;
+
     }
+
 
     @keyframes formFadeIn {
 
       from {
-        opacity: 0;
-        transform: translateY(16px);
+
+        opacity:
+          0;
+
+        transform:
+          translateY(16px);
+
       }
+
 
       to {
-        opacity: 1;
-        transform: translateY(0);
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0);
+
       }
 
     }
 
+
     .question {
-      margin-bottom: 28px;
+
+      margin-bottom:
+        28px;
+
     }
+
 
     .question-label {
-      display: block;
-      font-weight: 700;
-      font-size: 18px;
-      margin-bottom: 10px;
+
+      display:
+        block;
+
+      font-weight:
+        700;
+
+      font-size:
+        18px;
+
+      margin-bottom:
+        10px;
+
     }
+
 
     .required {
-      color: var(--danger);
-      margin-left: 4px;
+
+      color:
+        var(--danger);
+
+      margin-left:
+        4px;
+
     }
 
+
     .question-description {
-      margin-top: -3px;
-      margin-bottom: 10px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
+
+      margin-top:
+        -3px;
+
+      margin-bottom:
+        10px;
+
+      color:
+        var(--muted);
+
+      font-size:
+        14px;
+
+      line-height:
+        1.6;
+
     }
+
 
     input[type="text"],
     textarea,
     select {
-      width: 100%;
+
+      width:
+        100%;
 
       border:
         1px solid
         var(--border);
 
-      background: #fff;
-      border-radius: 16px;
-      padding: 16px 18px;
-      font-size: 17px;
-      color: var(--text);
-      outline: none;
+      background:
+        #fff;
+
+      border-radius:
+        16px;
+
+      padding:
+        16px 18px;
+
+      font-size:
+        17px;
+
+      color:
+        var(--text);
+
+      outline:
+        none;
 
       transition:
         border-color 0.2s ease,
         box-shadow 0.2s ease,
         transform 0.2s ease;
+
     }
+
 
     input[type="text"]:focus,
     textarea:focus,
     select:focus {
-      border-color: #b98c60;
+
+      border-color:
+        #b98c60;
 
       box-shadow:
         0 0 0 3px
-        rgba(185, 140, 96, 0.12);
+        rgba(
+          185,
+          140,
+          96,
+          0.12
+        );
 
       transform:
         translateY(-1px);
+
     }
+
 
     textarea {
-      min-height: 120px;
-      resize: vertical;
+
+      min-height:
+        120px;
+
+      resize:
+        vertical;
+
     }
 
 
-    /* =========================
+
+    /* ==================================================
        日期欄位
-    ========================= */
+    ================================================== */
 
     .date-input-wrap {
-      position: relative;
+
+      position:
+        relative;
+
     }
+
 
     .date-picker-input {
-      padding-right: 54px !important;
-      cursor: pointer;
-      background: #fff;
+
+      padding-right:
+        56px !important;
+
+      cursor:
+        pointer;
+
+      background:
+        #fff !important;
+
     }
+
 
     .date-input-icon {
-      position: absolute;
-      right: 17px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 20px;
-      color: #7c5a3d;
-      pointer-events: none;
+
+      position:
+        absolute;
+
+      right:
+        17px;
+
+      top:
+        50%;
+
+      transform:
+        translateY(-50%);
+
+      font-size:
+        21px;
+
+      pointer-events:
+        none;
+
     }
 
 
-    /* =========================
-       Flatpickr
-    ========================= */
 
-    .flatpickr-calendar {
-      border-radius: 16px !important;
-
-      border:
-        1px solid
-        #e6ceb3 !important;
-
-      box-shadow:
-        0 14px 34px
-        rgba(60, 40, 20, 0.18) !important;
-
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Noto Sans TC",
-        "Microsoft JhengHei",
-        sans-serif;
-    }
-
-    .flatpickr-current-month {
-      font-size: 16px !important;
-    }
-
-    .flatpickr-current-month input.cur-year {
-      font-weight: 700 !important;
-      color: #3f2c20 !important;
-    }
-
-    .flatpickr-current-month
-    .flatpickr-monthDropdown-months {
-      font-weight: 700 !important;
-      color: #3f2c20 !important;
-    }
-
-    .flatpickr-day {
-      border-radius: 10px !important;
-    }
-
-    .flatpickr-day:hover {
-      background: #f5eadc !important;
-      border-color: #f5eadc !important;
-    }
-
-    .flatpickr-day.today {
-      border-color: #b98c60 !important;
-    }
-
-    .flatpickr-day.selected,
-    .flatpickr-day.startRange,
-    .flatpickr-day.endRange {
-      background: #69401f !important;
-      border-color: #69401f !important;
-      color: #fff !important;
-    }
-
-
-    /* =========================
+    /* ==================================================
        Radio / Checkbox
-    ========================= */
+    ================================================== */
 
     .radio-list {
-      display: grid;
-      gap: 10px;
+
+      display:
+        grid;
+
+      gap:
+        10px;
+
     }
 
+
     .radio-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        10px;
 
       border:
         1px solid
         var(--border);
 
-      border-radius: 14px;
-      padding: 14px 16px;
-      cursor: pointer;
+      border-radius:
+        14px;
+
+      padding:
+        14px 16px;
+
+      cursor:
+        pointer;
 
       transition:
         0.2s ease;
+
     }
+
 
     .radio-item:hover {
-      background: #fcf7ef;
-      transform: translateY(-1px);
+
+      background:
+        #fcf7ef;
+
+      transform:
+        translateY(-1px);
+
     }
+
 
     .radio-item input {
-      transform: scale(1.15);
+
+      transform:
+        scale(1.15);
+
     }
 
 
-    /* =========================
-       Submit Button
-    ========================= */
+
+    /* ==================================================
+       Submit
+    ================================================== */
 
     .submit-button {
-      width: 100%;
-      border: 0;
-      border-radius: 16px;
-      padding: 17px 20px;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
+
+      width:
+        100%;
+
+      border:
+        0;
+
+      border-radius:
+        16px;
+
+      padding:
+        17px 20px;
+
+      font-size:
+        18px;
+
+      font-weight:
+        700;
+
+      cursor:
+        pointer;
 
       background:
         var(--primary);
@@ -526,57 +808,91 @@
 
       box-shadow:
         0 10px 22px
-        rgba(105, 64, 31, 0.18);
+        rgba(
+          105,
+          64,
+          31,
+          0.18
+        );
+
     }
 
+
     .submit-button:hover {
+
       transform:
         translateY(-2px);
 
       box-shadow:
         0 14px 28px
-        rgba(105, 64, 31, 0.24);
+        rgba(
+          105,
+          64,
+          31,
+          0.24
+        );
+
     }
 
-    .submit-button:active {
-      transform:
-        translateY(0);
-    }
 
     .submit-button:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-      transform: none;
+
+      opacity:
+        0.55;
+
+      cursor:
+        not-allowed;
+
+      transform:
+        none;
+
     }
 
 
-    /* =========================
+
+    /* ==================================================
        Loading
-    ========================= */
+    ================================================== */
 
     .loading {
-      min-height: 70vh;
 
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      min-height:
+        70vh;
 
-      gap: 16px;
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      gap:
+        16px;
 
       color:
         var(--muted);
+
     }
 
+
     .loading-image-wrap {
+
       animation:
         heroFloat
         3.2s
         ease-in-out
         infinite;
+
     }
 
+
     .loading-image {
+
       width:
         min(
           76vw,
@@ -588,24 +904,43 @@
 
       box-shadow:
         0 18px 30px
-        rgba(80, 50, 20, 0.08);
+        rgba(
+          80,
+          50,
+          20,
+          0.08
+        );
 
       animation:
         heroBreathe
         4.5s
         ease-in-out
         infinite;
+
     }
+
 
     .wave-dots {
-      display: flex;
-      gap: 8px;
-      margin-top: 4px;
+
+      display:
+        flex;
+
+      gap:
+        8px;
+
+      margin-top:
+        4px;
+
     }
 
+
     .wave-dots span {
-      width: 9px;
-      height: 9px;
+
+      width:
+        9px;
+
+      height:
+        9px;
 
       border-radius:
         50%;
@@ -618,139 +953,713 @@
         1.2s
         ease-in-out
         infinite;
+
     }
+
 
     .wave-dots span:nth-child(2) {
       animation-delay: 0.15s;
     }
 
+
     .wave-dots span:nth-child(3) {
       animation-delay: 0.3s;
     }
+
 
     @keyframes dotWave {
 
       0%,
       60%,
       100% {
-        opacity: 0.35;
-        transform: translateY(0);
+
+        opacity:
+          0.35;
+
+        transform:
+          translateY(0);
+
       }
 
+
       30% {
-        opacity: 1;
-        transform: translateY(-8px);
+
+        opacity:
+          1;
+
+        transform:
+          translateY(-8px);
+
       }
 
     }
 
 
-    /* =========================
+
+    /* ==================================================
        Message
-    ========================= */
+    ================================================== */
 
     .message-card {
-      background: #fff;
-      text-align: center;
-      padding: 50px 25px;
-      border-radius: 26px;
+
+      background:
+        #fff;
+
+      text-align:
+        center;
+
+      padding:
+        50px 25px;
+
+      border-radius:
+        26px;
 
       box-shadow:
         0 18px 45px
-        rgba(72, 46, 22, 0.08);
+        rgba(
+          72,
+          46,
+          22,
+          0.08
+        );
 
-      animation:
-        formFadeIn
-        0.5s ease;
     }
+
 
     .message-card h2 {
-      font-size: 28px;
-      margin-top: 0;
+
+      font-size:
+        28px;
+
     }
+
 
     .message-card p {
-      color: var(--muted);
-      line-height: 1.8;
+
+      color:
+        var(--muted);
+
+      line-height:
+        1.8;
+
     }
 
 
-    /* =========================
+
+    /* ==================================================
+       日期選擇器 Modal
+    ================================================== */
+
+    .date-modal-overlay {
+
+      position:
+        fixed;
+
+      inset:
+        0;
+
+      display:
+        none;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      padding:
+        18px;
+
+      background:
+        rgba(
+          40,
+          30,
+          20,
+          0.45
+        );
+
+      backdrop-filter:
+        blur(4px);
+
+      z-index:
+        99999;
+
+    }
+
+
+    .date-modal-overlay.show {
+
+      display:
+        flex;
+
+    }
+
+
+    .date-modal {
+
+      width:
+        min(
+          94vw,
+          480px
+        );
+
+      background:
+        #fffdf9;
+
+      border-radius:
+        26px;
+
+      padding:
+        24px 20px 20px;
+
+      box-shadow:
+        0 24px 70px
+        rgba(
+          50,
+          35,
+          20,
+          0.28
+        );
+
+      animation:
+        dateModalIn
+        0.25s ease;
+
+    }
+
+
+    @keyframes dateModalIn {
+
+      from {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(18px)
+          scale(0.97);
+
+      }
+
+
+      to {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0)
+          scale(1);
+
+      }
+
+    }
+
+
+    .date-modal-title {
+
+      text-align:
+        center;
+
+      font-size:
+        23px;
+
+      font-weight:
+        700;
+
+      color:
+        #3f2c20;
+
+      margin-bottom:
+        8px;
+
+    }
+
+
+    .date-modal-description {
+
+      text-align:
+        center;
+
+      color:
+        #8c7867;
+
+      line-height:
+        1.7;
+
+      font-size:
+        14px;
+
+      margin-bottom:
+        20px;
+
+    }
+
+
+
+    /* ==================================================
+       日期滾輪
+    ================================================== */
+
+    .date-wheel-container {
+
+      position:
+        relative;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1.35fr 1fr 1fr;
+
+      gap:
+        4px;
+
+      height:
+        220px;
+
+      overflow:
+        hidden;
+
+      border-radius:
+        18px;
+
+      background:
+        #faf8f4;
+
+    }
+
+
+    .date-wheel-highlight {
+
+      position:
+        absolute;
+
+      left:
+        8px;
+
+      right:
+        8px;
+
+      top:
+        88px;
+
+      height:
+        44px;
+
+      border-radius:
+        10px;
+
+      background:
+        rgba(
+          105,
+          64,
+          31,
+          0.08
+        );
+
+      border-top:
+        1px solid
+        rgba(
+          105,
+          64,
+          31,
+          0.13
+        );
+
+      border-bottom:
+        1px solid
+        rgba(
+          105,
+          64,
+          31,
+          0.13
+        );
+
+      pointer-events:
+        none;
+
+      z-index:
+        2;
+
+    }
+
+
+    .date-wheel-container::before,
+    .date-wheel-container::after {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      left:
+        0;
+
+      right:
+        0;
+
+      height:
+        80px;
+
+      z-index:
+        3;
+
+      pointer-events:
+        none;
+
+    }
+
+
+    .date-wheel-container::before {
+
+      top:
+        0;
+
+      background:
+        linear-gradient(
+          to bottom,
+          #faf8f4 15%,
+          rgba(
+            250,
+            248,
+            244,
+            0
+          )
+        );
+
+    }
+
+
+    .date-wheel-container::after {
+
+      bottom:
+        0;
+
+      background:
+        linear-gradient(
+          to top,
+          #faf8f4 15%,
+          rgba(
+            250,
+            248,
+            244,
+            0
+          )
+        );
+
+    }
+
+
+    .date-wheel {
+
+      height:
+        220px;
+
+      overflow-y:
+        auto;
+
+      scroll-snap-type:
+        y mandatory;
+
+      overscroll-behavior:
+        contain;
+
+      -webkit-overflow-scrolling:
+        touch;
+
+      scrollbar-width:
+        none;
+
+      padding:
+        88px 0;
+
+    }
+
+
+    .date-wheel::-webkit-scrollbar {
+
+      display:
+        none;
+
+    }
+
+
+    .date-wheel-item {
+
+      height:
+        44px;
+
+      display:
+        flex;
+
+      justify-content:
+        center;
+
+      align-items:
+        center;
+
+      scroll-snap-align:
+        center;
+
+      font-size:
+        18px;
+
+      color:
+        #aea096;
+
+      transition:
+        0.15s ease;
+
+      user-select:
+        none;
+
+      cursor:
+        pointer;
+
+      white-space:
+        nowrap;
+
+    }
+
+
+    .date-wheel-item.selected {
+
+      color:
+        #322319;
+
+      font-size:
+        20px;
+
+      font-weight:
+        700;
+
+    }
+
+
+    .date-selected-preview {
+
+      text-align:
+        center;
+
+      margin:
+        16px 0 18px;
+
+      font-size:
+        16px;
+
+      color:
+        #69401f;
+
+      font-weight:
+        600;
+
+    }
+
+
+    .date-modal-buttons {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr 1.4fr;
+
+      gap:
+        10px;
+
+    }
+
+
+    .date-button {
+
+      border:
+        0;
+
+      border-radius:
+        14px;
+
+      padding:
+        14px 12px;
+
+      font-size:
+        16px;
+
+      font-weight:
+        700;
+
+      cursor:
+        pointer;
+
+    }
+
+
+    .date-button-cancel {
+
+      background:
+        #f2eee9;
+
+      color:
+        #6f6258;
+
+    }
+
+
+    .date-button-confirm {
+
+      background:
+        #69401f;
+
+      color:
+        #fff;
+
+    }
+
+
+
+    /* ==================================================
        Mobile
-    ========================= */
+    ================================================== */
 
     @media (
       max-width: 720px
     ) {
 
       body {
+
         padding:
           16px 12px 40px;
+
       }
 
+
       .header {
+
         grid-template-columns:
           1fr;
 
         gap:
           10px;
+
       }
+
 
       .header-left {
+
         padding:
           8px 2px;
+
       }
+
 
       .brand {
+
         margin-bottom:
           20px;
+
       }
+
 
       .hero-image-wrap {
+
         min-height:
           auto;
+
       }
 
+
       .hero-image {
+
         max-width:
           360px;
 
         max-height:
           340px;
+
       }
 
+
       .form-card {
+
         padding:
           22px 18px;
 
         border-radius:
           22px;
+
       }
 
+
       .notice {
+
         padding:
           17px 18px;
+
       }
 
     }
 
 
     @media (
-      prefers-reduced-motion:
-      reduce
+      max-width: 520px
     ) {
 
-      *,
-      *::before,
-      *::after {
-        animation:
-          none !important;
+      .date-modal {
 
-        transition:
-          none !important;
+        width:
+          96vw;
+
+        padding:
+          22px 14px 16px;
+
+      }
+
+
+      .date-wheel-container {
+
+        height:
+          210px;
+
+      }
+
+
+      .date-wheel {
+
+        height:
+          210px;
+
+        padding:
+          83px 0;
+
+      }
+
+
+      .date-wheel-highlight {
+
+        top:
+          83px;
+
+      }
+
+
+      .date-wheel-item {
+
+        font-size:
+          17px;
+
+      }
+
+
+      .date-wheel-item.selected {
+
+        font-size:
+          19px;
+
       }
 
     }
+
 
   </style>
 
@@ -760,7 +1669,10 @@
 <body>
 
 
-  <!-- Loading -->
+
+  <!-- ==================================================
+       Loading
+  ================================================== -->
 
   <div
     id="loading"
@@ -799,7 +1711,9 @@
 
 
 
-  <!-- Main -->
+  <!-- ==================================================
+       Main
+  ================================================== -->
 
   <div
     id="app"
@@ -825,6 +1739,7 @@
           >
             藥
           </div>
+
 
           <span
             id="clinicName"
@@ -906,7 +1821,9 @@
 
 
 
-  <!-- 成功 / 錯誤 -->
+  <!-- ==================================================
+       Message
+  ================================================== -->
 
   <div
     id="messageArea"
@@ -917,10 +1834,109 @@
 
 
 
+  <!-- ==================================================
+       日期 Modal
+  ================================================== -->
+
+  <div
+    id="dateModalOverlay"
+    class="date-modal-overlay"
+  >
+
+    <div
+      class="date-modal"
+    >
+
+      <div
+        class="date-modal-title"
+      >
+        請選擇出生日期
+      </div>
+
+
+      <div
+        class="date-modal-description"
+      >
+        請上下滑動選擇您的西元出生年月日
+        <br>
+        系統送出時會自動轉換為民國出生年月日
+      </div>
+
+
+      <div
+        class="date-wheel-container"
+      >
+
+        <div
+          class="date-wheel-highlight"
+        >
+        </div>
+
+
+        <div
+          id="yearWheel"
+          class="date-wheel"
+        >
+        </div>
+
+
+        <div
+          id="monthWheel"
+          class="date-wheel"
+        >
+        </div>
+
+
+        <div
+          id="dayWheel"
+          class="date-wheel"
+        >
+        </div>
+
+      </div>
+
+
+      <div
+        id="dateSelectedPreview"
+        class="date-selected-preview"
+      >
+      </div>
+
+
+      <div
+        class="date-modal-buttons"
+      >
+
+        <button
+          type="button"
+          class="date-button date-button-cancel"
+          id="dateCancelButton"
+        >
+          取消
+        </button>
+
+
+        <button
+          type="button"
+          class="date-button date-button-confirm"
+          id="dateConfirmButton"
+        >
+          確認日期
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
   <script>
 
+
     /*************************************************
-     * 必填設定
+     * 系統設定
      *************************************************/
 
     const GAS_URL =
@@ -957,6 +1973,31 @@
 
 
     /*************************************************
+     * 日期選擇器
+     *************************************************/
+
+    const WHEEL_ITEM_HEIGHT =
+      44;
+
+
+    let activeDateInput =
+      null;
+
+
+    let selectedYear =
+      1990;
+
+
+    let selectedMonth =
+      1;
+
+
+    let selectedDay =
+      1;
+
+
+
+    /*************************************************
      * Start
      *************************************************/
 
@@ -964,9 +2005,23 @@
       'DOMContentLoaded',
       async () => {
 
+        setupDateModalEvents();
+
+
         try {
 
-          await initLine();
+          const continueLoad =
+            await initLine();
+
+
+          if (
+            continueLoad === false
+          ) {
+
+            return;
+
+          }
+
 
           await loadConfig();
 
@@ -1016,7 +2071,7 @@
 
           liff.login();
 
-          return;
+          return false;
 
         }
 
@@ -1039,23 +2094,20 @@
 
 
         console.log(
-
           'LINE Profile:',
-
           lineProfile
-
         );
+
+
+        return true;
 
       }
 
       catch (err) {
 
         console.warn(
-
           'LINE Profile 無法取得',
-
           err
-
         );
 
 
@@ -1068,6 +2120,9 @@
             ''
 
         };
+
+
+        return true;
 
       }
 
@@ -1082,6 +2137,7 @@
     async function loadConfig() {
 
       const url =
+
         `${GAS_URL}?action=config&_=${Date.now()}`;
 
 
@@ -1131,7 +2187,7 @@
 
 
     /*************************************************
-     * Render
+     * Render Form
      *************************************************/
 
     function renderForm() {
@@ -1142,20 +2198,18 @@
 
 
       const enabled =
-        (
-          settings.form_enabled ===
-          true
-        )
+
+        settings.form_enabled === true
+
         ||
-        (
-          String(
-            settings.form_enabled
-          )
-            .trim()
-            .toUpperCase()
-          ===
-          'TRUE'
-        );
+
+        String(
+          settings.form_enabled
+        )
+          .trim()
+          .toUpperCase()
+        ===
+        'TRUE';
 
 
       if (
@@ -1171,14 +2225,18 @@
 
         );
 
+
         return;
 
       }
 
 
+
       document.title =
+
         settings.page_title ||
         '預約照拿藥';
+
 
 
       document.getElementById(
@@ -1189,12 +2247,14 @@
         '瑞恩中醫';
 
 
+
       document.getElementById(
         'pageTitle'
       ).textContent =
 
         settings.page_title ||
         '預約照拿藥';
+
 
 
       document.getElementById(
@@ -1244,13 +2304,6 @@
       );
 
 
-      /***********************************************
-       * 初始化日期選擇器
-       ***********************************************/
-
-      initDatePickers();
-
-
 
       document.getElementById(
         'submitButton'
@@ -1260,10 +2313,12 @@
         '送出照拿藥申請';
 
 
+
       document.getElementById(
         'loading'
       ).style.display =
         'none';
+
 
 
       document.getElementById(
@@ -1420,6 +2475,7 @@
             'question';
 
 
+
           const label =
             document.createElement(
               'label'
@@ -1465,6 +2521,7 @@
           );
 
 
+
           if (
             question.description
           ) {
@@ -1490,6 +2547,7 @@
           }
 
 
+
           const input =
             createInput(
               question
@@ -1513,7 +2571,7 @@
 
 
     /*************************************************
-     * 建立欄位
+     * Create Input
      *************************************************/
 
     function createInput(
@@ -1521,9 +2579,9 @@
     ) {
 
 
-      /***********************************************
-       * textarea
-       ***********************************************/
+      /* ===============================
+         textarea
+      =============================== */
 
       if (
         question.type ===
@@ -1555,9 +2613,9 @@
 
 
 
-      /***********************************************
-       * date
-       ***********************************************/
+      /* ===============================
+         date
+      =============================== */
 
       if (
         question.type ===
@@ -1572,6 +2630,7 @@
 
         wrap.className =
           'date-input-wrap';
+
 
 
         const input =
@@ -1589,12 +2648,9 @@
 
 
         input.placeholder =
+
           question.placeholder ||
-          'yyyy/mm/dd';
-
-
-        input.required =
-          !!question.required;
+          '請點選出生日期';
 
 
         input.className =
@@ -1607,6 +2663,26 @@
 
         input.readOnly =
           true;
+
+
+        input.dataset.required =
+
+          question.required
+            ? 'true'
+            : 'false';
+
+
+
+        input.addEventListener(
+          'click',
+          () => {
+
+            openDatePicker(
+              input
+            );
+
+          }
+        );
 
 
 
@@ -1641,9 +2717,9 @@
 
 
 
-      /***********************************************
-       * select
-       ***********************************************/
+      /* ===============================
+         select
+      =============================== */
 
       if (
         question.type ===
@@ -1664,6 +2740,7 @@
           !!question.required;
 
 
+
         const empty =
           document.createElement(
             'option'
@@ -1681,6 +2758,7 @@
         select.appendChild(
           empty
         );
+
 
 
         (
@@ -1718,9 +2796,9 @@
 
 
 
-      /***********************************************
-       * radio
-       ***********************************************/
+      /* ===============================
+         radio
+      =============================== */
 
       if (
         question.type ===
@@ -1735,6 +2813,7 @@
 
         container.className =
           'radio-list';
+
 
 
         (
@@ -1752,6 +2831,7 @@
 
               label.className =
                 'radio-item';
+
 
 
               const radio =
@@ -1776,6 +2856,7 @@
                 !!question.required;
 
 
+
               const span =
                 document.createElement(
                   'span'
@@ -1784,6 +2865,7 @@
 
               span.textContent =
                 option.label;
+
 
 
               label.appendChild(
@@ -1810,9 +2892,9 @@
 
 
 
-      /***********************************************
-       * checkbox
-       ***********************************************/
+      /* ===============================
+         checkbox
+      =============================== */
 
       if (
         question.type ===
@@ -1827,6 +2909,7 @@
 
         container.className =
           'radio-list';
+
 
 
         (
@@ -1844,6 +2927,7 @@
 
               label.className =
                 'radio-item';
+
 
 
               const checkbox =
@@ -1864,6 +2948,7 @@
                 option.value;
 
 
+
               const span =
                 document.createElement(
                   'span'
@@ -1872,6 +2957,7 @@
 
               span.textContent =
                 option.label;
+
 
 
               label.appendChild(
@@ -1898,9 +2984,9 @@
 
 
 
-      /***********************************************
-       * text
-       ***********************************************/
+      /* ===============================
+         text
+      =============================== */
 
       const input =
         document.createElement(
@@ -1932,52 +3018,219 @@
 
 
     /*************************************************
-     * Flatpickr
+     * 日期 Modal Event
      *************************************************/
 
-    function initDatePickers() {
+    function setupDateModalEvents() {
 
-      const dateInputs =
-        document.querySelectorAll(
-          '.date-picker-input'
+      document
+        .getElementById(
+          'dateCancelButton'
+        )
+        .addEventListener(
+          'click',
+          closeDatePicker
         );
 
 
-      dateInputs.forEach(
-        input => {
+      document
+        .getElementById(
+          'dateConfirmButton'
+        )
+        .addEventListener(
+          'click',
+          confirmDatePicker
+        );
 
-          flatpickr(
-            input,
-            {
 
-              locale:
-                flatpickr.l10ns.zh_tw,
+      document
+        .getElementById(
+          'dateModalOverlay'
+        )
+        .addEventListener(
+          'click',
+          event => {
 
-              dateFormat:
-                'Y/m/d',
+            if (
+              event.target.id ===
+              'dateModalOverlay'
+            ) {
 
-              allowInput:
-                false,
-
-              clickOpens:
-                true,
-
-              disableMobile:
-                true,
-
-              monthSelectorType:
-                'dropdown',
-
-              prevArrow:
-                '←',
-
-              nextArrow:
-                '→'
+              closeDatePicker();
 
             }
+
+          }
+        );
+
+    }
+
+
+
+    /*************************************************
+     * 打開日期
+     *************************************************/
+
+    function openDatePicker(
+      input
+    ) {
+
+      activeDateInput =
+        input;
+
+
+
+      selectedYear =
+        1990;
+
+
+      selectedMonth =
+        1;
+
+
+      selectedDay =
+        1;
+
+
+
+      if (
+        input.value
+      ) {
+
+        const parts =
+          input.value.split(
+            '/'
           );
 
+
+        if (
+          parts.length === 3
+        ) {
+
+          selectedYear =
+            Number(
+              parts[0]
+            );
+
+
+          selectedMonth =
+            Number(
+              parts[1]
+            );
+
+
+          selectedDay =
+            Number(
+              parts[2]
+            );
+
         }
+
+      }
+
+
+
+      buildAllDateWheels();
+
+
+
+      document
+        .getElementById(
+          'dateModalOverlay'
+        )
+        .classList
+        .add(
+          'show'
+        );
+
+
+
+      document.body.style.overflow =
+        'hidden';
+
+
+
+      setTimeout(
+        () => {
+
+          scrollAllDateWheels();
+
+        },
+        50
+      );
+
+
+      updateDateSelection();
+
+    }
+
+
+
+    /*************************************************
+     * 建立全部 Wheel
+     *************************************************/
+
+    function buildAllDateWheels() {
+
+      buildYearWheel();
+
+      buildMonthWheel();
+
+      buildDayWheel();
+
+    }
+
+
+
+    /*************************************************
+     * 年
+     *************************************************/
+
+    function buildYearWheel() {
+
+      const currentYear =
+        new Date()
+          .getFullYear();
+
+
+      const values = [];
+
+
+      for (
+        let year = 1920;
+        year <= currentYear;
+        year++
+      ) {
+
+        values.push(
+          year
+        );
+
+      }
+
+
+
+      buildWheel(
+
+        'yearWheel',
+
+        values,
+
+        value =>
+          `${value}年`,
+
+        selectedYear,
+
+        value => {
+
+          selectedYear =
+            value;
+
+
+          rebuildDayWheel();
+
+        }
+
       );
 
     }
@@ -1985,11 +3238,723 @@
 
 
     /*************************************************
-     * 西元日期 → 民國7碼
-     *
-     * 1984/09/02
-     * →
-     * 0730902
+     * 月
+     *************************************************/
+
+    function buildMonthWheel() {
+
+      const values = [];
+
+
+      for (
+        let month = 1;
+        month <= 12;
+        month++
+      ) {
+
+        values.push(
+          month
+        );
+
+      }
+
+
+
+      buildWheel(
+
+        'monthWheel',
+
+        values,
+
+        value =>
+          `${value}月`,
+
+        selectedMonth,
+
+        value => {
+
+          selectedMonth =
+            value;
+
+
+          rebuildDayWheel();
+
+        }
+
+      );
+
+    }
+
+
+
+    /*************************************************
+     * 日
+     *************************************************/
+
+    function buildDayWheel() {
+
+      const maxDay =
+        getDaysInMonth(
+
+          selectedYear,
+
+          selectedMonth
+
+        );
+
+
+      if (
+        selectedDay > maxDay
+      ) {
+
+        selectedDay =
+          maxDay;
+
+      }
+
+
+
+      const values = [];
+
+
+      for (
+        let day = 1;
+        day <= maxDay;
+        day++
+      ) {
+
+        values.push(
+          day
+        );
+
+      }
+
+
+
+      buildWheel(
+
+        'dayWheel',
+
+        values,
+
+        value =>
+          `${value}日`,
+
+        selectedDay,
+
+        value => {
+
+          selectedDay =
+            value;
+
+
+          updateDateSelection();
+
+        }
+
+      );
+
+    }
+
+
+
+    /*************************************************
+     * 共用 Wheel
+     *************************************************/
+
+    function buildWheel(
+
+      wheelId,
+
+      values,
+
+      formatter,
+
+      selectedValue,
+
+      onChange
+
+    ) {
+
+      const wheel =
+        document.getElementById(
+          wheelId
+        );
+
+
+
+      if (
+        wheel._wheelHandler
+      ) {
+
+        wheel.removeEventListener(
+
+          'scroll',
+
+          wheel._wheelHandler
+
+        );
+
+      }
+
+
+
+      wheel.innerHTML =
+        '';
+
+
+
+      values.forEach(
+        value => {
+
+          const item =
+            document.createElement(
+              'div'
+            );
+
+
+          item.className =
+            'date-wheel-item';
+
+
+          item.dataset.value =
+            value;
+
+
+          item.textContent =
+            formatter(
+              value
+            );
+
+
+
+          item.addEventListener(
+            'click',
+            () => {
+
+              onChange(
+                Number(value)
+              );
+
+
+              scrollWheelToValue(
+
+                wheel,
+
+                value,
+
+                true
+
+              );
+
+
+
+              updateDateSelection();
+
+            }
+          );
+
+
+          wheel.appendChild(
+            item
+          );
+
+        }
+      );
+
+
+
+      let timer =
+        null;
+
+
+
+      wheel._wheelHandler =
+        () => {
+
+          clearTimeout(
+            timer
+          );
+
+
+          timer =
+            setTimeout(
+              () => {
+
+                const items =
+                  wheel.querySelectorAll(
+                    '.date-wheel-item'
+                  );
+
+
+                const index =
+                  Math.max(
+
+                    0,
+
+                    Math.min(
+
+                      items.length - 1,
+
+                      Math.round(
+
+                        wheel.scrollTop /
+                        WHEEL_ITEM_HEIGHT
+
+                      )
+
+                    )
+
+                  );
+
+
+                if (
+                  !items[index]
+                ) {
+
+                  return;
+
+                }
+
+
+                const value =
+                  Number(
+                    items[index]
+                      .dataset
+                      .value
+                  );
+
+
+                onChange(
+                  value
+                );
+
+
+                updateDateSelection();
+
+              },
+              70
+            );
+
+        };
+
+
+
+      wheel.addEventListener(
+
+        'scroll',
+
+        wheel._wheelHandler
+
+      );
+
+
+
+      highlightWheelValue(
+
+        wheelId,
+
+        selectedValue
+
+      );
+
+    }
+
+
+
+    /*************************************************
+     * 重建日
+     *************************************************/
+
+    function rebuildDayWheel() {
+
+      const maxDay =
+        getDaysInMonth(
+
+          selectedYear,
+
+          selectedMonth
+
+        );
+
+
+      selectedDay =
+        Math.min(
+
+          selectedDay,
+
+          maxDay
+
+        );
+
+
+      buildDayWheel();
+
+
+      setTimeout(
+        () => {
+
+          scrollWheelToValue(
+
+            document.getElementById(
+              'dayWheel'
+            ),
+
+            selectedDay,
+
+            false
+
+          );
+
+
+          updateDateSelection();
+
+        },
+        0
+      );
+
+    }
+
+
+
+    /*************************************************
+     * 月份天數
+     *************************************************/
+
+    function getDaysInMonth(
+
+      year,
+
+      month
+
+    ) {
+
+      return new Date(
+
+        year,
+
+        month,
+
+        0
+
+      ).getDate();
+
+    }
+
+
+
+    /*************************************************
+     * Wheel Scroll
+     *************************************************/
+
+    function scrollWheelToValue(
+
+      wheel,
+
+      value,
+
+      smooth = false
+
+    ) {
+
+      const items =
+        Array.from(
+
+          wheel.querySelectorAll(
+            '.date-wheel-item'
+          )
+
+        );
+
+
+      const index =
+        items.findIndex(
+          item =>
+
+            Number(
+              item.dataset.value
+            )
+            ===
+            Number(value)
+
+        );
+
+
+      if (
+        index < 0
+      ) {
+
+        return;
+
+      }
+
+
+
+      wheel.scrollTo({
+
+        top:
+
+          index *
+          WHEEL_ITEM_HEIGHT,
+
+        behavior:
+
+          smooth
+            ? 'smooth'
+            : 'auto'
+
+      });
+
+    }
+
+
+
+    /*************************************************
+     * 初始 Scroll
+     *************************************************/
+
+    function scrollAllDateWheels() {
+
+      scrollWheelToValue(
+
+        document.getElementById(
+          'yearWheel'
+        ),
+
+        selectedYear
+
+      );
+
+
+      scrollWheelToValue(
+
+        document.getElementById(
+          'monthWheel'
+        ),
+
+        selectedMonth
+
+      );
+
+
+      scrollWheelToValue(
+
+        document.getElementById(
+          'dayWheel'
+        ),
+
+        selectedDay
+
+      );
+
+    }
+
+
+
+    /*************************************************
+     * 高亮
+     *************************************************/
+
+    function highlightWheelValue(
+
+      wheelId,
+
+      value
+
+    ) {
+
+      const wheel =
+        document.getElementById(
+          wheelId
+        );
+
+
+      wheel
+        .querySelectorAll(
+          '.date-wheel-item'
+        )
+        .forEach(
+          item => {
+
+            item.classList.toggle(
+
+              'selected',
+
+              Number(
+                item.dataset.value
+              )
+              ===
+              Number(value)
+
+            );
+
+          }
+        );
+
+    }
+
+
+
+    /*************************************************
+     * Date Selection
+     *************************************************/
+
+    function updateDateSelection() {
+
+      highlightWheelValue(
+
+        'yearWheel',
+
+        selectedYear
+
+      );
+
+
+      highlightWheelValue(
+
+        'monthWheel',
+
+        selectedMonth
+
+      );
+
+
+      highlightWheelValue(
+
+        'dayWheel',
+
+        selectedDay
+
+      );
+
+
+      updateDatePreview();
+
+    }
+
+
+
+    /*************************************************
+     * 預覽
+     *************************************************/
+
+    function updateDatePreview() {
+
+      const month =
+        String(
+          selectedMonth
+        ).padStart(
+          2,
+          '0'
+        );
+
+
+      const day =
+        String(
+          selectedDay
+        ).padStart(
+          2,
+          '0'
+        );
+
+
+      const rocYear =
+        selectedYear -
+        1911;
+
+
+      const roc =
+        String(
+          rocYear
+        ).padStart(
+          3,
+          '0'
+        );
+
+
+      document.getElementById(
+        'dateSelectedPreview'
+      ).textContent =
+
+        `${selectedYear}/${month}/${day} ｜ 民國 ${roc} 年`;
+
+    }
+
+
+
+    /*************************************************
+     * 確認日期
+     *************************************************/
+
+    function confirmDatePicker() {
+
+      if (
+        !activeDateInput
+      ) {
+
+        return;
+
+      }
+
+
+      const month =
+        String(
+          selectedMonth
+        ).padStart(
+          2,
+          '0'
+        );
+
+
+      const day =
+        String(
+          selectedDay
+        ).padStart(
+          2,
+          '0'
+        );
+
+
+      activeDateInput.value =
+
+        `${selectedYear}/${month}/${day}`;
+
+
+      closeDatePicker();
+
+    }
+
+
+
+    /*************************************************
+     * Close Date
+     *************************************************/
+
+    function closeDatePicker() {
+
+      document
+        .getElementById(
+          'dateModalOverlay'
+        )
+        .classList
+        .remove(
+          'show'
+        );
+
+
+      document.body.style.overflow =
+        '';
+
+
+      activeDateInput =
+        null;
+
+    }
+
+
+
+    /*************************************************
+     * 西元 → 民國7碼
      *************************************************/
 
     function toRoc7(
@@ -2010,7 +3975,9 @@
           dateText
         )
           .trim()
-          .split('/');
+          .split(
+            '/'
+          );
 
 
       if (
@@ -2052,7 +4019,8 @@
 
 
       const rocYear =
-        year - 1911;
+        year -
+        1911;
 
 
       if (
@@ -2098,6 +4066,151 @@
 
 
     /*************************************************
+     * 前端必填檢查
+     *************************************************/
+
+    function validateRequiredFields() {
+
+      const questions =
+        formConfig.questions ||
+        [];
+
+
+      for (
+        const question of questions
+      ) {
+
+        if (
+          !question.required
+          ||
+          question.type ===
+          'hidden'
+        ) {
+
+          continue;
+
+        }
+
+
+        if (
+          question.type ===
+          'radio'
+        ) {
+
+          const checked =
+            document.querySelector(
+
+              `input[name="${question.id}"]:checked`
+
+            );
+
+
+          if (
+            !checked
+          ) {
+
+            alert(
+              `請填寫「${question.label}」`
+            );
+
+
+            return false;
+
+          }
+
+        }
+
+
+        else if (
+          question.type ===
+          'checkbox'
+        ) {
+
+          const checked =
+            document.querySelectorAll(
+
+              `input[name="${question.id}"]:checked`
+
+            );
+
+
+          if (
+            checked.length === 0
+          ) {
+
+            alert(
+              `請填寫「${question.label}」`
+            );
+
+
+            return false;
+
+          }
+
+        }
+
+
+        else {
+
+          const input =
+            document.querySelector(
+
+              `[name="${question.id}"]`
+
+            );
+
+
+          if (
+            !input
+            ||
+            !String(
+              input.value || ''
+            ).trim()
+          ) {
+
+            alert(
+              `請填寫「${question.label}」`
+            );
+
+
+            if (
+              question.type ===
+              'date'
+              &&
+              input
+            ) {
+
+              openDatePicker(
+                input
+              );
+
+            }
+
+            else if (
+              input
+            ) {
+
+              input.focus();
+
+            }
+
+
+            return false;
+
+          }
+
+        }
+
+      }
+
+
+      return true;
+
+    }
+
+
+
+    /*************************************************
      * Submit
      *************************************************/
 
@@ -2110,6 +4223,15 @@
         async event => {
 
           event.preventDefault();
+
+
+          if (
+            !validateRequiredFields()
+          ) {
+
+            return;
+
+          }
 
 
           const button =
@@ -2128,8 +4250,10 @@
               '資料送出中...';
 
 
+
             const answers =
               {};
+
 
 
             (
@@ -2149,10 +4273,6 @@
                   }
 
 
-
-                  /*************************************
-                   * Radio
-                   *************************************/
 
                   if (
                     question.type ===
@@ -2177,11 +4297,6 @@
 
                   }
 
-
-
-                  /*************************************
-                   * Checkbox
-                   *************************************/
 
                   else if (
                     question.type ===
@@ -2216,11 +4331,6 @@
                   }
 
 
-
-                  /*************************************
-                   * 其他
-                   *************************************/
-
                   else {
 
                     const input =
@@ -2234,14 +4344,14 @@
                     let value =
 
                       input
-                        ? input.value.trim()
+                        ? String(
+                            input.value
+                          ).trim()
                         : '';
 
 
 
-                    /***********************************
-                     * birthday 自動轉民國7碼
-                     ***********************************/
+                    /* birthday 才轉民國7碼 */
 
                     if (
                       question.type ===
@@ -2276,6 +4386,7 @@
             await submitData(
               answers
             );
+
 
 
             showMessage(
@@ -2387,8 +4498,7 @@
 
         throw new Error(
 
-          result.message
-          ||
+          result.message ||
           '送出失敗'
 
         );
@@ -2447,6 +4557,7 @@
         'message-card';
 
 
+
       const h2 =
         document.createElement(
           'h2'
@@ -2457,6 +4568,7 @@
         title;
 
 
+
       const p =
         document.createElement(
           'p'
@@ -2465,6 +4577,7 @@
 
       p.textContent =
         message;
+
 
 
       card.appendChild(
@@ -2483,7 +4596,9 @@
 
     }
 
+
   </script>
+
 
 </body>
 
