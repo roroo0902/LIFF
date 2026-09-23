@@ -2717,84 +2717,174 @@
 
 
 
-      /* ===============================
-         select
-      =============================== */
+      /***********************************************
+ * select
+ ***********************************************/
 
-      if (
-        question.type ===
-        'select'
-      ) {
+if (
+  question.type ===
+  'select'
+) {
 
-        const select =
-          document.createElement(
-            'select'
-          );
-
-
-        select.name =
-          question.id;
+  const wrap =
+    document.createElement(
+      'div'
+    );
 
 
-        select.required =
-          !!question.required;
+  const select =
+    document.createElement(
+      'select'
+    );
 
 
-
-        const empty =
-          document.createElement(
-            'option'
-          );
+  select.name =
+    question.id;
 
 
-        empty.value =
-          '';
+  select.required =
+    !!question.required;
 
 
-        empty.textContent =
-          '請選擇';
+  const empty =
+    document.createElement(
+      'option'
+    );
 
 
-        select.appendChild(
-          empty
+  empty.value =
+    '';
+
+
+  empty.textContent =
+    '請選擇';
+
+
+  select.appendChild(
+    empty
+  );
+
+
+  (
+    question.options ||
+    []
+  ).forEach(
+    option => {
+
+      const item =
+        document.createElement(
+          'option'
         );
 
 
-
-        (
-          question.options ||
-          []
-        )
-          .forEach(
-            option => {
-
-              const item =
-                document.createElement(
-                  'option'
-                );
+      item.value =
+        option.value;
 
 
-              item.value =
-                option.value;
+      item.textContent =
+        option.label;
 
 
-              item.textContent =
-                option.label;
+      select.appendChild(
+        item
+      );
+
+    }
+  );
 
 
-              select.appendChild(
-                item
-              );
-
-            }
-          );
+  wrap.appendChild(
+    select
+  );
 
 
-        return select;
+  /***********************************************
+   * 其他：自行輸入
+   ***********************************************/
+
+  const otherInput =
+    document.createElement(
+      'input'
+    );
+
+
+  otherInput.type =
+    'text';
+
+
+  otherInput.placeholder =
+    '請自行輸入拿藥天數，例如：21';
+
+
+  otherInput.className =
+    'other-input';
+
+
+  otherInput.dataset.forQuestion =
+    question.id;
+
+
+  otherInput.style.display =
+    'none';
+
+
+  otherInput.style.marginTop =
+    '10px';
+
+
+  wrap.appendChild(
+    otherInput
+  );
+
+
+  select.addEventListener(
+    'change',
+    () => {
+
+      if (
+        select.value ===
+        '__OTHER__'
+      ) {
+
+        otherInput.style.display =
+          'block';
+
+
+        otherInput.required =
+          !!question.required;
+
+
+        setTimeout(
+          () => {
+            otherInput.focus();
+          },
+          50
+        );
 
       }
 
+      else {
 
+        otherInput.style.display =
+          'none';
+
+
+        otherInput.required =
+          false;
+
+
+        otherInput.value =
+          '';
+
+      }
+
+    }
+  );
+
+
+  return wrap;
+
+}
 
       /* ===============================
          radio
@@ -4333,22 +4423,61 @@
 
                   else {
 
-                    const input =
-                      document.querySelector(
-
-                        `[name="${question.id}"]`
-
-                      );
+const input =
+  document.querySelector(
+    `[name="${question.id}"]`
+  );
 
 
-                    let value =
+let value =
+  input
+    ? String(
+        input.value
+      ).trim()
+    : '';
 
-                      input
-                        ? String(
-                            input.value
-                          ).trim()
-                        : '';
 
+/***********************************************
+ * 下拉選單選「其他」
+ ***********************************************/
+
+if (
+  question.type ===
+  'select'
+  &&
+  value ===
+  '__OTHER__'
+) {
+
+  const otherInput =
+    document.querySelector(
+      `.other-input[data-for-question="${question.id}"]`
+    );
+
+
+  const otherValue =
+    otherInput
+      ? String(
+          otherInput.value
+        ).trim()
+      : '';
+
+
+  if (
+    !otherValue
+  ) {
+
+    throw new Error(
+      `請輸入「${question.label}」的其他內容`
+    );
+
+  }
+
+
+  value =
+    otherValue;
+
+}
 
 
                     /* birthday 才轉民國7碼 */
