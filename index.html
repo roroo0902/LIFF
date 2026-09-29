@@ -1217,6 +1217,121 @@
 
 
     /* ==================================================
+       送出成功圖片
+    ================================================== */
+
+    .success-image-card {
+
+      width:
+        min(
+          100%,
+          720px
+        );
+
+      margin:
+        20px auto;
+
+      padding:
+        10px;
+
+      background:
+        #ffffff;
+
+      border-radius:
+        24px;
+
+      box-shadow:
+        0 18px 45px
+        rgba(
+          72,
+          46,
+          22,
+          0.10
+        );
+
+      overflow:
+        hidden;
+
+      animation:
+        successImageIn
+        0.45s
+        ease;
+
+    }
+
+
+    .success-image {
+
+      display:
+        block;
+
+      width:
+        100%;
+
+      height:
+        auto;
+
+      margin:
+        0 auto;
+
+      border-radius:
+        16px;
+
+    }
+
+
+    .success-image-error {
+
+      padding:
+        30px 20px;
+
+      text-align:
+        center;
+
+      font-size:
+        18px;
+
+      line-height:
+        1.8;
+
+      font-weight:
+        700;
+
+      color:
+        #69401f;
+
+    }
+
+
+    @keyframes successImageIn {
+
+      from {
+
+        opacity:
+          0;
+
+        transform:
+          translateY(12px)
+          scale(0.98);
+
+      }
+
+
+      to {
+
+        opacity:
+          1;
+
+        transform:
+          translateY(0)
+          scale(1);
+
+      }
+
+    }
+
+
+    /* ==================================================
        Message
     ================================================== */
 
@@ -1814,6 +1929,31 @@
     @media (
       max-width: 720px
     ) {
+
+      /* 送出成功圖片：手機版 */
+
+      .success-image-card {
+
+        margin:
+          10px auto;
+
+        padding:
+          6px;
+
+        border-radius:
+          18px;
+
+      }
+
+
+      .success-image {
+
+        border-radius:
+          12px;
+
+      }
+
+
 .notice-poster-card {
 
   padding:
@@ -2073,6 +2213,13 @@
 
 
   </style>
+
+
+  <link
+    rel="prefetch"
+    as="image"
+    href="https://i.ibb.co/vC7BThCD/image.jpg"
+  >
 
 </head>
 
@@ -2459,7 +2606,7 @@
      *************************************************/
 
     const GAS_URL =
-      'https://script.google.com/macros/s/AKfycbw9V8-u7vi6grwiZKHQ4nIf4sNk46h3NYunalY8ORlhfbgdDDkKYs-kL7hVozMbiV-W/exec';
+      'https://script.google.com/macros/s/AKfycbyJp3w3MNaJi1yNdWXHnegNqbkgxMmrGiMsx3KURcb4oZZr8YX461OXjk8zVnFMYVqh/exec';
 
 
     const LIFF_ID =
@@ -6663,19 +6810,7 @@ let value =
 
 
 
-            showMessage(
-
-              formConfig.settings
-                .success_title
-              ||
-              '申請成功',
-
-              formConfig.settings
-                .success_message
-              ||
-              '已收到您的照拿藥申請。'
-
-            );
+            showSuccessImage();
 
           }
 
@@ -6784,6 +6919,106 @@ let value =
 
     }
 
+
+
+    /*************************************************
+     * 送出成功圖片
+     *************************************************/
+
+    function showSuccessImage() {
+
+      document.getElementById(
+        'loading'
+      ).style.display =
+        'none';
+
+
+      document.getElementById(
+        'app'
+      ).style.display =
+        'none';
+
+
+      const area =
+        document.getElementById(
+          'messageArea'
+        );
+
+
+      area.style.display =
+        'block';
+
+
+      area.innerHTML =
+        '';
+
+
+      const card =
+        document.createElement(
+          'div'
+        );
+
+
+      card.className =
+        'success-image-card';
+
+
+      const image =
+        document.createElement(
+          'img'
+        );
+
+
+      image.className =
+        'success-image';
+
+
+      image.src =
+        'https://i.ibb.co/vC7BThCD/image.jpg';
+
+
+      image.alt =
+        '照拿藥申請成功';
+
+
+      image.decoding =
+        'async';
+
+
+      image.onload =
+        () => {
+
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+
+        };
+
+
+      image.onerror =
+        () => {
+
+          card.innerHTML =
+            `
+              <div class="success-image-error">
+                照拿藥申請已送出成功，請記得查看 LINE 是否收到確認內容。
+              </div>
+            `;
+
+        };
+
+
+      card.appendChild(
+        image
+      );
+
+
+      area.appendChild(
+        card
+      );
+
+    }
 
 
     /*************************************************
