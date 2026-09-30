@@ -867,6 +867,24 @@
     }
 
 
+    /* ==================================================
+       Checkbox「其他服藥狀況」4 行 textarea
+    ================================================== */
+
+    textarea.other-input[data-option-type="checkbox"] {
+
+      min-height:
+        110px;
+
+      line-height:
+        1.6;
+
+      resize:
+        vertical;
+
+    }
+
+
 
     /* ==================================================
        日期欄位
@@ -4354,12 +4372,16 @@ function renderNotices(
 
               const otherInput =
                 document.createElement(
-                  'input'
+                  'textarea'
                 );
 
 
-              otherInput.type =
-                'text';
+              /*********************************************
+               * 「其他服藥狀況」預留 4 行高度
+               *********************************************/
+
+              otherInput.rows =
+                4;
 
 
               otherInput.placeholder =
