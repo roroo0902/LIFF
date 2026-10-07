@@ -3949,8 +3949,46 @@ function renderNotices(
               option.value;
 
 
-            item.textContent =
-              option.label;
+            /*********************************************
+             * 拿藥天數：下拉選單顯示自動補「天」
+             * 例如：7 → 7天、10 → 10天、14 → 14天
+             * 「其他」維持原本顯示
+             *********************************************/
+
+            if (
+              question.id ===
+              'days'
+              &&
+              option.value !==
+              '__OTHER__'
+            ) {
+
+              const dayLabel =
+                String(
+                  option.label ||
+                  option.value ||
+                  ''
+                )
+                  .trim()
+                  .replace(
+                    /天\s*$/,
+                    ''
+                  );
+
+
+              item.textContent =
+                dayLabel
+                ? dayLabel + '天'
+                : '';
+
+            }
+
+            else {
+
+              item.textContent =
+                option.label;
+
+            }
 
 
             select.appendChild(
@@ -6808,6 +6846,41 @@ let value =
                           otherValue;
 
                       }
+
+                    }
+
+
+                    /***********************************************
+                     * 拿藥天數：一般選項也統一補「天」
+                     *
+                     * 7  → 7天
+                     * 10 → 10天
+                     * 14 → 14天
+                     *
+                     * 「其他」在上方已經處理成例如 25天
+                     ***********************************************/
+
+                    if (
+                      question.id ===
+                      'days'
+                      &&
+                      value
+                      &&
+                      value !==
+                      '__OTHER__'
+                    ) {
+
+                      value =
+                        String(
+                          value
+                        )
+                          .trim()
+                          .replace(
+                            /天\s*$/,
+                            ''
+                          )
+                        +
+                        '天';
 
                     }
 
