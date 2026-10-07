@@ -1235,89 +1235,100 @@
 
 
     /* ==================================================
-       送出成功圖片
+       送出成功圖片 + LINE 連結按鈕
     ================================================== */
 
+    #messageArea {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+
     .success-image-card {
-
-      width:
-        min(
-          100%,
-          720px
-        );
-
-      margin:
-        20px auto;
-
-      padding:
-        10px;
-
-      background:
-        #ffffff;
-
-      border-radius:
-        24px;
-
+      width: 100%;
+      margin: 16px auto 12px;
+      padding: 8px;
+      background: #ffffff;
+      border-radius: 22px;
       box-shadow:
-        0 18px 45px
+        0 14px 36px
         rgba(
           72,
           46,
           22,
           0.10
         );
-
-      overflow:
-        hidden;
-
+      overflow: hidden;
       animation:
         successImageIn
         0.45s
         ease;
-
     }
 
 
     .success-image {
-
-      display:
-        block;
-
-      width:
-        100%;
-
-      height:
-        auto;
-
-      margin:
-        0 auto;
-
-      border-radius:
-        16px;
-
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 16px;
     }
 
 
     .success-image-error {
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 18px;
+      line-height: 1.8;
+      font-weight: 700;
+      color: #69401f;
+    }
 
-      padding:
-        30px 20px;
 
-      text-align:
-        center;
+    .line-link-button {
+      display: block;
+      width: 100%;
+      margin: 12px auto 30px;
+      text-decoration: none;
+      cursor: pointer;
+      border-radius: 18px;
+      -webkit-tap-highlight-color: transparent;
+      transition:
+        transform 0.18s ease,
+        opacity 0.18s ease,
+        filter 0.18s ease;
+    }
 
-      font-size:
-        18px;
 
-      line-height:
-        1.8;
+    .line-link-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 18px;
+      box-shadow:
+        0 10px 26px
+        rgba(
+          0,
+          190,
+          80,
+          0.18
+        );
+    }
 
-      font-weight:
-        700;
 
-      color:
-        #69401f;
+    @media (hover: hover) {
+      .line-link-button:hover {
+        transform: translateY(-2px);
+        filter: brightness(1.03);
+      }
+    }
 
+
+    .line-link-button:active {
+      transform: scale(0.98);
     }
 
 
@@ -1948,27 +1959,34 @@
       max-width: 720px
     ) {
 
-      /* 送出成功圖片：手機版 */
+      /* 送出成功圖片 + LINE 按鈕：手機版 */
+
+      #messageArea {
+        max-width: 100%;
+        padding: 10px;
+      }
+
 
       .success-image-card {
-
-        margin:
-          10px auto;
-
-        padding:
-          6px;
-
-        border-radius:
-          18px;
-
+        margin: 8px auto 12px;
+        padding: 5px;
+        border-radius: 16px;
       }
 
 
       .success-image {
+        border-radius: 12px;
+      }
 
-        border-radius:
-          12px;
 
+      .line-link-button {
+        margin: 10px auto 24px;
+        border-radius: 14px;
+      }
+
+
+      .line-link-image {
+        border-radius: 14px;
       }
 
 
@@ -6944,7 +6962,7 @@ let value =
 
 
     /*************************************************
-     * 送出成功圖片
+     * 送出成功圖片 + LINE 按鈕
      *************************************************/
 
     function showSuccessImage() {
@@ -6974,6 +6992,11 @@ let value =
       area.innerHTML =
         '';
 
+
+
+      /*************************************************
+       * 1. 送出成功圖片
+       *************************************************/
 
       const card =
         document.createElement(
@@ -7038,6 +7061,78 @@ let value =
 
       area.appendChild(
         card
+      );
+
+
+
+      /*************************************************
+       * 2. LINE 圖片按鈕
+       *************************************************/
+
+      const lineLink =
+        document.createElement(
+          'a'
+        );
+
+
+      lineLink.href =
+        'https://lin.ee/5Ck9dmA';
+
+
+      lineLink.className =
+        'line-link-button';
+
+
+      lineLink.setAttribute(
+        'aria-label',
+        '點我看更多資訊'
+      );
+
+
+      // iOS / Android / 電腦皆可使用
+      lineLink.target =
+        '_blank';
+
+
+      lineLink.rel =
+        'noopener noreferrer';
+
+
+
+      const lineImage =
+        document.createElement(
+          'img'
+        );
+
+
+      lineImage.src =
+        'https://i.ibb.co/FkRhXYRp/image.jpg';
+
+
+      lineImage.alt =
+        '點我看更多資訊';
+
+
+      lineImage.className =
+        'line-link-image';
+
+
+      lineImage.decoding =
+        'async';
+
+
+      lineImage.loading =
+        'eager';
+
+
+
+      lineLink.appendChild(
+        lineImage
+      );
+
+
+      area.appendChild(
+        lineLink
       );
 
     }
